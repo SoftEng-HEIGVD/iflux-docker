@@ -1,0 +1,4 @@
+ifluxsrv:
+  build: iflux-server
+  ports:
+    - "3000:3000"
