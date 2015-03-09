@@ -10,6 +10,12 @@ ifluxsrvdata:
   build: iflux-server-data
   volumes:
     - "/data/db:/data/db"
+ifluxslack:
+  build: iflux-slack
+  env_file:
+    .env
+  ports:
+    - "3001:3000"
 mongo:
   image: mongo
   ports:
