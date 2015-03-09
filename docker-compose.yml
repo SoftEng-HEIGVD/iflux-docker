@@ -1,4 +1,19 @@
 ifluxsrv:
   build: iflux-server
+  environment:
+    NODE_ENV: docker
   ports:
     - "3000:3000"
+  links:
+    - mongo
+ifluxsrvdata:
+  build: iflux-server-data
+  volumes:
+    - "/data/db:/data/db"
+mongo:
+  image: mongo
+  ports:
+    - "27017:27017"
+  volumes_from:
+    - ifluxsrvdata
+
