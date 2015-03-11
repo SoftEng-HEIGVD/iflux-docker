@@ -10,3 +10,9 @@
 [submodule "iflux-metrics/code"]
 	path = iflux-metrics/code
 	url = git@github.com:SoftEng-HEIGVD/iflux-metrics-action-target.git
+[submodule "citizen-engagement/code"]
+	path = citizen-engagement/code
+	url = git@github.com:SoftEng-HEIGVD/Teaching-HEIGVD-CM_WEBS-2015-Labo-Express-Impl.git
+[submodule "iflux-client/code"]
+	path = iflux-client/code
+	url = git@github.com:SoftEng-HEIGVD/iflux-node-client.git

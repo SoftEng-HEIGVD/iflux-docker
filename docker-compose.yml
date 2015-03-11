@@ -20,6 +20,8 @@ ifluxsrvdata:
     - "/data/db:/data/db"
 ifluxslack:
   build: iflux-slack
+  environment:
+    NODE_ENV: docker
   env_file:
     .env
   ports:
@@ -34,6 +36,22 @@ ifluxmetrics:
     - mongo
   ports:
     - "3002:3000"
+ifluxstarter:
+  build: iflux-starter
+  links:
+    - ifluxsrv
+    - ifluxslack
+    - ifluxmetrics
+citizen:
+  build: citizen-engagement
+  environment:
+    NODE_ENV: docker
+  env_file:
+    .env
+  links:
+    - mongo
+  ports:
+    - "3003:3000"
 mongo:
   image: mongo
   ports:
