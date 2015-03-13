@@ -16,3 +16,6 @@
 [submodule "iflux-client/code"]
 	path = iflux-client/code
 	url = git@github.com:SoftEng-HEIGVD/iflux-node-client.git
+[submodule "publibike/code"]
+	path = publibike/code
+	url = git@github.com:SoftEng-HEIGVD/iflux-publibike-event-source.git

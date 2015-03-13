@@ -52,6 +52,12 @@ citizen:
     - mongo
   ports:
     - "3003:3000"
+publibike:
+  build: publibike
+  environment:
+    NODE_ENV: docker
+  env_file:
+    .env
 mongo:
   image: mongo
   ports:

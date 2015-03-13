@@ -115,6 +115,45 @@ var rules = {
 			actionTarget: "metrics_url",
 			actionSchema: "{\"type\":\"updateMetric\",\"properties\":{\"metric\":\"ch.heigvd.ptl.slack.messages\",\"timestamp\":\"{{ timestamp }}\"}}"
 		}
+	},
+
+	"PUBLIBIKE-SLACK": {
+		description: "Send text notification to slack to notify bikes availibilities.",
+		reference: "PUBLIBIKE-SLACK",
+		if: {
+			eventSource: "publibike/eventSource",
+			eventType: "movementEvent"
+		},
+		then: {
+			actionTarget: "slack_url",
+			actionSchema: "{\"type\":\"sendSlackMessage\",\"properties\":{\"channel\":\"iflux\",\"message\":\"Only {{ properties.new.bikes }} bike(s) available at the station {{ properties.terminal.name }}, {{ properties.terminal.street }}, {{ properties.terminal.zip }} {{ properties.terminal.city }}.\"}}"
+		}
+	},
+
+	"PUBLIBIKE-METRICS-FREEHOLDERS": {
+		description: "Update metrics for each station (free holders).",
+		reference: "PUBLIBIKE-METRICS-FREEHOLDERS",
+		if: {
+			eventSource: "publibike/eventSource",
+			eventType: "movementEvent"
+		},
+		then: {
+			actionTarget: "metrics_url",
+			actionSchema: "{\"type\":\"updateMetric\",\"properties\":{\"metric\":\"io.iflux.publibike.holders.{{ properties.terminal.terminalid }}\",\"value\":{{ properties.new.freeholders }},\"timestamp\":\"{{timestamp}}\"}}"
+		}
+	},
+
+	"PUBLIBIKE-METRICS-BIKES": {
+		description: "Update metrics for each station (bikes).",
+		reference: "PUBLIBIKE-METRICS-BIKES",
+		if: {
+			eventSource: "publibike/eventSource",
+			eventType: "movementEvent"
+		},
+		then: {
+			actionTarget: "metrics_url",
+			actionSchema: "{\"type\":\"updateMetric\",\"properties\":{\"metric\":\"io.iflux.publibike.bikes.{{ properties.terminal.terminalid }}\",\"value\":{{ properties.new.bikes }},\"timestamp\":\"{{timestamp}}\"}}"
+		}
 	}
 }
 
@@ -155,7 +194,6 @@ _.each(rules, function(rule, ref) {
 			});
 		}
 		else if (retrievedRules.length == 0) {
-			console.log(rule);
 			return this.post({
 				url: '/rules',
 				body: rule
