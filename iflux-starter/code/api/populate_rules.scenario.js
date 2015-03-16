@@ -3,7 +3,9 @@ var
 	dotenv = require('dotenv'),
 	copilot = require('api-copilot');
 
-dotenv.load();
+if (process.env.NODE_ENV != 'docker') {
+	dotenv.load();
+}
 
 var scenario = new copilot.Scenario({
   name: 'Populate rules',
