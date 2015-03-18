@@ -27,6 +27,10 @@ scenario.addParam('metrics_url', {
 	default: process.env.IFLUXMETRICS_SERVER_URL || 'http://ifluxmetrics:3002'
 });
 
+scenario.addParam('viewer_url', {
+	default: process.env.IFLUXMAPBOX_SERVER_URL || 'http://ifluxmapbox:3004'
+});
+
 var rules = {
 	"SC-CE-AE-SLACK": {
 		description: "Send text notification to slack when action occurred.",
@@ -76,7 +80,7 @@ var rules = {
 		},
 		then: {
 			actionTarget: "slack_url",
-			actionSchema: "{\"type\":\"sendSlackMessage\",\"properties\":{\"channel\":\"iflux\",\"message\":\"{{ properties.creator }} submitted an issue [{{ properties.issueId }}] on {{ properties.date }}. The issue concern: {{ properties.description }} and is situated at {{ properties.where }}.\"}}"
+			actionSchema: "{\"type\":\"sendSlackMessage\",\"properties\":{\"channel\":\"iflux\",\"message\":\"{{ properties.creator }} submitted an issue [{{ properties.issueId }}] on {{ properties.date }}. The issue concern: {{ properties.description }} and is situated at [lat: {{ properties.where.lat }}, lng: {{ properties.where.lng }}].\"}}"
 		}
 	},
 
@@ -156,7 +160,50 @@ var rules = {
 			actionTarget: "metrics_url",
 			actionSchema: "{\"type\":\"updateMetric\",\"properties\":{\"metric\":\"io.iflux.publibike.bikes.{{ properties.terminal.terminalid }}\",\"value\":{{ properties.new.bikes }},\"timestamp\":\"{{timestamp}}\"}}"
 		}
+	},
+
+	"PUBLIBIKE-VIEWER": {
+		description: "Send data to render on the publibike map",
+		reference: "PUBLIBIKE-VIEWER",
+		if: {
+			eventSource: "publibike/eventSource",
+			eventType: "movementEvent",
+			eventProperties: {}
+		},
+		then: {
+			actionTarget: "viewer_url",
+			actionSchema: "{\"type\":\"newMarker\",\"properties\":{\"markerType\":\"publibike\",\"lat\":{{ properties.terminal.lat }},\"lng\":{{ properties.terminal.lng }},\"date\":\"{{ timestamp }}\",\"key\":\"id\",\"data\":{\"remainingBikes\":{{ properties.new.bikes }},\"id\":\"{{ properties.terminal.terminalid }}\",\"name\":\"{{ properties.terminal.name }}\",\"street\":\"{{ properties.terminal.street }}\",\"city\":\"{{ properties.terminal.city }}\",\"zip\":\"{{ properties.terminal.zip }}\"}}}"
+		}
+	},
+
+	"CITIZEN-VIEWER-NEW": {
+		description: "Send data to render on the citizen map",
+		reference: "CITIZEN-VIEWER-NEW",
+		if: {
+			eventSource: "smartCity/citizenEngagement",
+			eventType: "issueCreated",
+			eventProperties: {}
+		},
+		then: {
+			actionTarget: "viewer_url",
+			actionSchema: "{\"type\":\"newMarker\",\"properties\":{\"markerType\":\"citizen\",\"lat\":{{ properties.where.lat }},\"lng\":{{ properties.where.lng }},\"date\":\"{{ timestamp }}\",\"key\":\"id\",\"data\":{\"description\":\"{{ properties.description }}\",\"id\":\"{{ properties.issueId }}\",\"imageUrl\":\"{{ properties.imageUrl }}\",\"state\":\"{{ properties.state }}\",\"owner\":\"{{ properties.creator }}\",\"createdOn\":\"{{ properties.createdOn }}\"}}}"
+		}
+	},
+
+	"CITIZEN-VIEWER-UPDATE": {
+		description: "Send updated data to render on the citizen map",
+		reference: "CITIZEN-VIEWER-UPDATE",
+		if: {
+			eventSource: "smartCity/citizenEngagement",
+			eventType: "issueStateChanged",
+			eventProperties: {}
+		},
+		then: {
+			actionTarget: "viewer_url",
+			actionSchema: "{\"type\":\"newMarker\",\"properties\":{\"markerType\":\"citizen\",\"lat\":{{ properties.where.lat }},\"lng\":{{ properties.where.lng }},\"date\":\"{{ timestamp }}\",\"key\":\"id\",\"data\":{\"description\":\"{{ properties.description }}\",\"id\":\"{{ properties.issueId }}\",\"imageUrl\":\"{{ properties.imageUrl }}\",\"state\":\"{{ properties.state }}\",\"owner\":\"{{ properties.creator }}\",\"createdOn\":\"{{ properties.createdOn }}\"}}}"
+		}
 	}
+
 }
 
 scenario.step('configure base URL', function() {
@@ -182,7 +229,7 @@ _.each(rules, function(rule, ref) {
 
 		rule.then.actionTarget = this.param(rule.then.actionTarget);
 
-		console.log(retrievedRules);
+		console.log("New action target: %s", rule.then.actionTarget);
 
 		if (retrievedRules.length == 1) {
 			return this.patch({
@@ -190,7 +237,8 @@ _.each(rules, function(rule, ref) {
 				body: {
 					enabled: true,
 					then: {
-						actionTarget: rule.then.actionTarget
+						actionTarget: rule.then.actionTarget,
+						actionSchema: rule.then.actionSchema
 					}
 				}
 			});

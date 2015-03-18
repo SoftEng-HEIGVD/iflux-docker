@@ -36,12 +36,21 @@ ifluxmetrics:
     - mongo
   ports:
     - "3002:3000"
+ifluxmapbox:
+  build: mapbox-viewer
+  environment:
+    NODE_ENV: docker
+  ports:
+    - "3004:3000"
+  env_file:
+    .env
 ifluxstarter:
   build: iflux-starter
   links:
     - ifluxsrv
     - ifluxslack
     - ifluxmetrics
+    - ifluxmapbox
 citizen:
   build: citizen-engagement
   environment:
