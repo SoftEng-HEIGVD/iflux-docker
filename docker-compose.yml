@@ -46,6 +46,8 @@ ifluxmapbox:
     .env
 ifluxstarter:
   build: iflux-starter
+  env_file:
+    .env
   links:
     - ifluxsrv
     - ifluxslack

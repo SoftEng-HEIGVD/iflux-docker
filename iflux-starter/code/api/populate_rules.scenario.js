@@ -31,6 +31,10 @@ scenario.addParam('viewer_url', {
 	default: process.env.IFLUXMAPBOX_SERVER_URL || 'http://ifluxmapbox:3004'
 });
 
+scenario.addParam('enable_slack', {
+	default: process.env.ENABLE_SLACK || true
+});
+
 var rules = {
 	"SC-CE-AE-SLACK": {
 		description: "Send text notification to slack when action occurred.",
@@ -186,7 +190,7 @@ var rules = {
 		},
 		then: {
 			actionTarget: "viewer_url",
-			actionSchema: "{\"type\":\"newMarker\",\"properties\":{\"markerType\":\"citizen\",\"lat\":{{ properties.where.lat }},\"lng\":{{ properties.where.lng }},\"date\":\"{{ timestamp }}\",\"key\":\"id\",\"data\":{\"description\":\"{{ properties.description }}\",\"id\":\"{{ properties.issueId }}\",\"imageUrl\":\"{{ properties.imageUrl }}\",\"state\":\"{{ properties.state }}\",\"owner\":\"{{ properties.creator }}\",\"createdOn\":\"{{ properties.createdOn }}\"}}}"
+			actionSchema: "{\"type\":\"newMarker\",\"properties\":{\"markerType\":\"citizen\",\"lat\":{{ properties.where.lat }},\"lng\":{{ properties.where.lng }},\"date\":\"{{ timestamp }}\",\"key\":\"id\",\"data\":{\"description\":\"{{ properties.description }}\",\"id\":\"{{ properties.issueId }}\",\"imageUrl\":\"{{ properties.imageUrl }}\",\"state\":\"{{ properties.state }}\",\"owner\":\"{{ properties.creator }}\",\"createdOn\":\"{{ properties.createdOn }}\",\"updatedOn\":\"{{ properties.updatedOn }}\",\"issueTypeCode\":\"{{ properties.issueTypeCode }}\"}}}"
 		}
 	},
 
@@ -200,7 +204,7 @@ var rules = {
 		},
 		then: {
 			actionTarget: "viewer_url",
-			actionSchema: "{\"type\":\"newMarker\",\"properties\":{\"markerType\":\"citizen\",\"lat\":{{ properties.where.lat }},\"lng\":{{ properties.where.lng }},\"date\":\"{{ timestamp }}\",\"key\":\"id\",\"data\":{\"description\":\"{{ properties.description }}\",\"id\":\"{{ properties.issueId }}\",\"imageUrl\":\"{{ properties.imageUrl }}\",\"state\":\"{{ properties.state }}\",\"owner\":\"{{ properties.creator }}\",\"createdOn\":\"{{ properties.createdOn }}\"}}}"
+			actionSchema: "{\"type\":\"updateMarker\",\"properties\":{\"markerType\":\"citizen\",\"lat\":{{ properties.where.lat }},\"lng\":{{ properties.where.lng }},\"date\":\"{{ timestamp }}\",\"key\":\"id\",\"data\":{\"description\":\"{{ properties.description }}\",\"id\":\"{{ properties.issueId }}\",\"imageUrl\":\"{{ properties.imageUrl }}\",\"state\":\"{{ properties.state }}\",\"owner\":\"{{ properties.creator }}\",\"createdOn\":\"{{ properties.createdOn }}\",\"updatedOn\":\"{{ properties.updatedOn }}\",\"issueTypeCode\":\"{{ properties.issueTypeCode }}\"}}}"
 		}
 	}
 
@@ -232,10 +236,16 @@ _.each(rules, function(rule, ref) {
 		console.log("New action target: %s", rule.then.actionTarget);
 
 		if (retrievedRules.length == 1) {
+			var enabled = true;
+
+			if (ref.indexOf('SLACK') > -1) {
+				enabled = this.param('enable_slack');
+			}
+
 			return this.patch({
 				url: '/rules/' + retrievedRules[0].id,
 				body: {
-					enabled: true,
+					enabled: enabled,
 					then: {
 						actionTarget: rule.then.actionTarget,
 						actionSchema: rule.then.actionSchema
