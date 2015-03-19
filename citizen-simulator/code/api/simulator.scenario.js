@@ -30,7 +30,7 @@ Queue.prototype.pushRandom = function(item) {
 		var sliceIdx = randomInt(0, this.size);
 
 		var left = this.storage.slice(0, sliceIdx);
-		var right = this.storage.slice(sliceIdx, this.size - 1);
+		var right = this.storage.slice(sliceIdx);
 
 		this.storage = left.concat([item], right);
 	}
@@ -92,10 +92,7 @@ var ACTION_WORKFLOWS = {
 	short_resolve: [ 'resolve' ],
 	medium_resolve: [ 'ack', 'resolve' ],
 	long_resolve: [ 'ack', 'start', 'resolve' ],
-	short_reject: [ 'reject' ],
-	medium_reject: [ 'ack', 'reject' ],
 	long_reject: [ 'ack', 'start', 'reject' ],
-	short_pending: [ 'start' ],
 	long_pending: [ 'ack', 'start' ]
 };
 
@@ -125,13 +122,13 @@ var DESCRIPTIONS = {
 		{ desc: "Why this street light is red. It must be yellow.", flow: 'long_reject' }
 	],
 	dcr: [
-		{ desc: "The car speed at this crossroad is really to high. I cannot let my children cross the road alone.", flow: 'short_pending' },
-		{ desc: "There is no pedestrian crossing there. I do not want to walk 100 meters to find one.", flow: 'short_reject' },
-		{ desc: "Why there is no round about there", flow: 'medium_reject' }
+		{ desc: "The car speed at this crossroad is really to high. I cannot let my children cross the road alone.", flow: 'long_pending' },
+		{ desc: "There is no pedestrian crossing there. I do not want to walk 100 meters to find one.", flow: 'short_resolve' },
+		{ desc: "Why there is no round about there", flow: 'long_reject' }
 	],
 	grf: [
 		{ desc: "Again! My shopwindow is full of painting:", flow: 'short_resolve' },
-		{ desc: "The station is full of graffiti. You should clean that.", flow: 'long_resolve' }
+		{ desc: "The station is full of graffiti. You should clean that.", flow: 'long_reject' }
 	]
 };
 
