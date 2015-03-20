@@ -53,8 +53,8 @@ Queue.prototype.pop = function() {
 	}
 }
 
-var TICK_DELAY_MIN = 5000;
-var TICK_DELAY_MAX = 15000;
+var TICK_DELAY_MIN = 2000;
+var TICK_DELAY_MAX = 10000;
 
 var NB_CITIZEN = 15;
 
