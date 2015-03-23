@@ -235,13 +235,13 @@ _.each(rules, function(rule, ref) {
 
 		console.log("New action target: %s", rule.then.actionTarget);
 
+		var enabled = true;
+
+		if (ref.indexOf('SLACK') > -1) {
+			enabled = this.param('enable_slack');
+		}
+
 		if (retrievedRules.length == 1) {
-			var enabled = true;
-
-			if (ref.indexOf('SLACK') > -1) {
-				enabled = this.param('enable_slack');
-			}
-
 			return this.patch({
 				url: '/rules/' + retrievedRules[0].id,
 				body: {
@@ -254,6 +254,8 @@ _.each(rules, function(rule, ref) {
 			});
 		}
 		else if (retrievedRules.length == 0) {
+			rule.enabled = enabled;
+
 			return this.post({
 				url: '/rules',
 				body: rule
