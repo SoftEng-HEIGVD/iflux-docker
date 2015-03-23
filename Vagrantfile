@@ -86,6 +86,7 @@ SH
 		vdocker.vm.network :forwarded_port, guest: 3001, host: 3001
 		vdocker.vm.network :forwarded_port, guest: 3002, host: 3002
 		vdocker.vm.network :forwarded_port, guest: 3003, host: 3003
+		vdocker.vm.network :forwarded_port, guest: 3004, host: 3004
 		vdocker.vm.network :forwarded_port, guest: 4000, host: 4000
 
     # Since we mount the dir using NFS we need a private network
