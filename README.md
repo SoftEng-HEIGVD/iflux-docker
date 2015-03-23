@@ -12,6 +12,12 @@ Install:
 
 ## Setup
 
+Run the following command to retrieve the content of all the submodules:
+
+```bash
+$> git submodule update --recursive
+```
+
 Create the file `.env` in the root directory of the project. This file will not be commited. The content is the following:
 
 ```bash
