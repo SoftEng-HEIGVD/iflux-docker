@@ -22,3 +22,6 @@
 [submodule "iflux-blog/code"]
 	path = iflux-blog/code
 	url = git@github.com:SoftEng-HEIGVD/iFLUX.io.git
+[submodule "mapbox-viewer/code"]
+	path = mapbox-viewer/code
+	url = git@github.com:SoftEng-HEIGVD/iflux-mapbox-viewer.git
