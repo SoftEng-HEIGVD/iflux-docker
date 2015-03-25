@@ -1,9 +1,6 @@
 [submodule "iflux-server/code"]
 	path = iflux-server/code
 	url = git@github.com:SoftEng-HEIGVD/iflux-server-node.git
-[submodule "iflux-slack/code"]
-	path = iflux-slack/code
-	url = git@github.com:SoftEng-HEIGVD/iflux-slack-gateway.git
 [submodule "iflux-apidoc/code"]
 	path = iflux-apidoc/code
 	url = git@github.com:SoftEng-HEIGVD/iFLUX.io.git
