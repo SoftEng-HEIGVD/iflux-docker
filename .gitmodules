@@ -4,9 +4,6 @@
 [submodule "iflux-apidoc/code"]
 	path = iflux-apidoc/code
 	url = git@github.com:SoftEng-HEIGVD/iFLUX.io.git
-[submodule "publibike/code"]
-	path = publibike/code
-	url = git@github.com:SoftEng-HEIGVD/iflux-publibike-event-source.git
 [submodule "iflux-blog/code"]
 	path = iflux-blog/code
 	url = git@github.com:SoftEng-HEIGVD/iFLUX.io.git
