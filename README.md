@@ -73,13 +73,13 @@ Once everything is running, you will be able to access different services:
 
 | Service             | Url                  |
 | ------------------- | -------------------- |
-| iFLUX Server        | http://<IP>:3000     |
-| iFLUX Slack Gateway | http://<IP>:3001     |
-| iFLUX Metrics       | http://<IP>:3002     |
-| Citizen Engagement  | http://<IP>:3003/api |
-| iFLUX MapBox Viewer | http://<IP>:3004     |
-| iFLUX Blog          | http://<IP>:4000     |
-| Mongo DB            | mongo://<IP>:27017   |
+| iFLUX Server        | http://{IP}:3000     |
+| iFLUX Slack Gateway | http://{IP}:3001     |
+| iFLUX Metrics       | http://{IP}:3002     |
+| Citizen Engagement  | http://{IP}:3003/api |
+| iFLUX MapBox Viewer | http://{IP}:3004     |
+| iFLUX Blog          | http://{IP}:4000     |
+| Mongo DB            | mongo://{IP}:27017   |
 
 ### iFLUX Server
 
