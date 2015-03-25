@@ -10,9 +10,6 @@
 [submodule "iflux-metrics/code"]
 	path = iflux-metrics/code
 	url = git@github.com:SoftEng-HEIGVD/iflux-metrics-action-target.git
-[submodule "iflux-client/code"]
-	path = iflux-client/code
-	url = git@github.com:SoftEng-HEIGVD/iflux-node-client.git
 [submodule "publibike/code"]
 	path = publibike/code
 	url = git@github.com:SoftEng-HEIGVD/iflux-publibike-event-source.git
