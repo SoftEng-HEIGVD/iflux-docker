@@ -15,6 +15,12 @@ Install:
 Run the following command to retrieve the content of all the submodules:
 
 ```bash
+$> git submodule update --init --recursive
+```
+
+After the first time, you can use the following command to update the submodules:
+
+```bash
 $> git submodule update --recursive
 ```
 
