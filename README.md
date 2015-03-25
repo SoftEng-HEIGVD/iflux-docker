@@ -12,18 +12,6 @@ Install:
 
 ## Setup
 
-Run the following command to retrieve the content of all the submodules:
-
-```bash
-$> git submodule update --init --recursive
-```
-
-After the first time, you can use the following command to update the submodules:
-
-```bash
-$> git submodule update --recursive
-```
-
 Create the file `.env` in the root directory of the project. This file will not be commited. The content is the following:
 
 ```bash
@@ -31,6 +19,7 @@ SLACK_BOT_TOKEN=xoxb-<replaceWithTheSlackBotToken>
 IFLUX_SERVER_URL=http://<replaceWithTheBoot2DockerIp>:3000
 IFLUX_SITE_URL=http://<replaceWithTheBoot2DockerIp>:4000
 ENABLE_SLACK=<true|false>
+NODE_ENV=docker
 ```
 
 ## Run it with boot2docker
@@ -45,16 +34,18 @@ $> boot2docker init
 $> boot2docker up
 
 # Setup your environment
-$> $(boot2docker shellinit)
+$> boot2docker shellinit
 
-# Build all the containers
+# Retrieve the external IP of the VM
+$> boot2docker ip
+
+# REMARK: Replace the relevant data into the .env
+
+# Build part of the containers
 $> cd <projectRootDirectory>
 $> docker-compose build
 
-# Retrieve the external IP of the VM
-$> echo $(boot2docker ip)
-
-# Run the containers
+# Run the containers (this will take a while due to the download of the containers)
 $> docker-compose up
 
 # Or if you want to run it in the background
@@ -70,8 +61,11 @@ The `Vagrant` file define the `public IP` of the VM to be `172.17.8.100`.
 # Run the following command in the root directory
 $> vagrant up
 ```
+
 **Remark:** This is experimental and the provisioning part is sometimes crashing. When it happens, relaunch the same command
 until the process succeed.
+
+**Remark:** Due to the latest changes, vagrant is no more supported at the moment.
 
 ## Use it
 

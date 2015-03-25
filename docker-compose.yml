@@ -1,15 +1,12 @@
-ifluxblog:
-  build: iflux-blog
-  env_file:
-    .env
-  ports:
-    - "4000:4000"
+#ifluxblog:
+#  build: iflux-blog
+#  env_file:
+#    .env
+#  ports:
+#    - "4000:4000"
 ifluxsrv:
-  build: iflux-server
-  environment:
-    NODE_ENV: docker
-  env_file:
-    .env
+  image: softengheigvd/iflux-server-node:v0.1.0
+  env_file: ./.env
   ports:
     - "3000:3000"
   links:
@@ -19,58 +16,47 @@ ifluxsrvdata:
   volumes:
     - "/data/db:/data/db"
 ifluxslack:
-  build: iflux-slack
-  environment:
-    NODE_ENV: docker
-  env_file:
-    .env
+  image: softengheigvd/iflux-slack-gateway:v0.1.0
+  env_file: ./.env
+  dns: 8.8.8.8
   ports:
     - "3001:3000"
 ifluxmetrics:
-  build: iflux-metrics
-  environment:
-    NODE_ENV: docker
-  env_file:
-    .env
+  image: softengheigvd/iflux-metrics-action-target:v0.1.0
+  env_file: ./.env
   links:
     - mongo
   ports:
     - "3002:3000"
 ifluxmapbox:
-  build: mapbox-viewer
-  environment:
-    NODE_ENV: docker
+  image: softengheigvd/iflux-mapbox-viewer:v0.1.1
+  env_file: ./.env
   ports:
     - "3004:3000"
   env_file:
     .env
 ifluxstarter:
-  build: iflux-starter
-  env_file:
-    .env
+  image: softengheigvd/iflux-server-starter:v0.0.2
+  env_file: ./.env
   links:
     - ifluxsrv
     - ifluxslack
     - ifluxmetrics
     - ifluxmapbox
 citizen:
-  build: citizen-engagement
-  environment:
-    NODE_ENV: docker
-  env_file:
-    .env
+  image: softengheigvd/citizen:v0.1.0
+  env_file: ./.env
   links:
     - mongo
   ports:
     - "3003:3000"
 publibike:
-  build: publibike
-  environment:
-    NODE_ENV: docker
-  env_file:
-    .env
+  image: softengheigvd/iflux-publibike-event-source:v0.1.0
+  dns: 8.8.8.8
+  env_file: ./.env
 mongo:
   image: mongo
+  command: mongod --smallfiles
   ports:
     - "27017:27017"
   volumes_from:

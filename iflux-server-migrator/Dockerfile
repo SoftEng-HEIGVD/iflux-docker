@@ -1,4 +1,4 @@
-FROM ifluxdocker_ifluxsrv
+FROM softengheigvd/iflux-server:latest
 MAINTAINER Laurent Prevost <laurent.prevost@heig-vd.ch>
 
 USER root
