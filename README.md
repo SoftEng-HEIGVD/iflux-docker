@@ -2,6 +2,8 @@
 
 > A complete infrastructure for iFLUX and the related demo.
 
+[![Stories in Ready](https://badge.waffle.io/SoftEng-HEIGVD/iflux-docker.svg?label=ready&title=Ready)](http://waffle.io/SoftEng-HEIGVD/iflux-docker)
+
 ## Installation
 
 Install:
