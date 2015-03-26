@@ -5,7 +5,7 @@
 [![Stories in Backlog](https://badge.waffle.io/SoftEng-HEIGVD/iflux-docker.svg?label=backlog&title=Backlog)](http://waffle.io/SoftEng-HEIGVD/iflux-docker)
 [![Stories in Ready](https://badge.waffle.io/SoftEng-HEIGVD/iflux-docker.svg?label=ready&title=Ready)](http://waffle.io/SoftEng-HEIGVD/iflux-docker)
 [![Stories in In Progress](https://badge.waffle.io/SoftEng-HEIGVD/iflux-docker.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/SoftEng-HEIGVD/iflux-docker)
-[![Stories in In Done](https://badge.waffle.io/SoftEng-HEIGVD/iflux-docker.svg?label=done&title=done)](http://waffle.io/SoftEng-HEIGVD/iflux-docker)
+[![Stories in In Done](https://badge.waffle.io/SoftEng-HEIGVD/iflux-docker.svg?label=done&title=Done)](http://waffle.io/SoftEng-HEIGVD/iflux-docker)
 
 ## Installation
 
