@@ -1,9 +1,8 @@
-#ifluxblog:
-#  build: iflux-blog
-#  env_file:
-#    .env
-#  ports:
-#    - "4000:4000"
+ifluxblog:
+  build: softengheigvd/iflux-io:latest
+  env_file: ./.env
+  ports:
+    - "4000:4000"
 ifluxsrv:
   image: softengheigvd/iflux-server-node:v0.1.1
   env_file: ./.env

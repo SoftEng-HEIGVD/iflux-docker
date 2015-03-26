@@ -1,6 +1,0 @@
-[submodule "iflux-apidoc/code"]
-	path = iflux-apidoc/code
-	url = git@github.com:SoftEng-HEIGVD/iFLUX.io.git
-[submodule "iflux-blog/code"]
-	path = iflux-blog/code
-	url = git@github.com:SoftEng-HEIGVD/iFLUX.io.git
