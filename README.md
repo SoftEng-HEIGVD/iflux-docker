@@ -78,15 +78,15 @@ until the process succeed.
 
 Once everything is running, you will be able to access different services:
 
-| Service             | Url                  |
-| ------------------- | -------------------- |
-| iFLUX Server        | http://{IP}:3000     |
-| iFLUX Slack Gateway | http://{IP}:3001     |
-| iFLUX Metrics       | http://{IP}:3002     |
-| Citizen Engagement  | http://{IP}:3003/api |
-| iFLUX MapBox Viewer | http://{IP}:3004     |
-| iFLUX Blog          | http://{IP}:4000     |
-| Mongo DB            | mongo://{IP}:27017   |
+| Service             | Url                  | Repository |
+| ------------------- | -------------------- | ---------- |
+| iFLUX Server        | http://{IP}:3000     | https://github.com/SoftEng-HEIGVD/iflux-server-node
+| iFLUX Slack Gateway | http://{IP}:3001     | https://github.com/SoftEng-HEIGVD/iflux-slack-gateway
+| iFLUX Metrics       | http://{IP}:3002     | https://github.com/SoftEng-HEIGVD/iflux-metrics-action-target
+| iFLUX MapBox Viewer | http://{IP}:3004     | https://github.com/SoftEng-HEIGVD/iflux-mapbox-viewer
+| Citizen Engagement  | http://{IP}:3005/api | https://github.com/SoftEng-HEIGVD/Teaching-HEIGVD-CM_WEBS-2015-Labo-Express-Impl
+| iFLUX Blog          | http://{IP}:4000     | https://github.com/SoftEng-HEIGVD/iFLUX.io
+| Mongo DB            | mongo://{IP}:27017   | n/a
 
 ### iFLUX Server
 
@@ -107,7 +107,7 @@ to users. An issue consist of a localized problem located in a city. Take a look
 
 ### Publibike poller
 
-Demonstration application to collect data about the [Publibike](https://www.publibike.ch).
+Demonstration application to collect data about the [Publibike](https://www.publibike.ch). The [repository](https://github.com/SoftEng-HEIGVD/iflux-publibike-event-source).
 
 ### iFLUX MapBox Viewer
 
@@ -140,6 +140,54 @@ $> docker run -e NODE_ENV=docker --link /ifluxdocker_mongo_1:mongo <IFLUXSERVER_
 #### iFLUX Starter
 
 Starting script run when `docker-compose up` is invoked to make sure the `iFLUX` rules are setup correctly.
+
+## Apache as a reverse proxy
+
+The following configuration is a proposal to configure Apache to serve the iFLUX components as a reverse proxy.
+
+```bash
+<LocationMatch "/slack">
+	ProxyPass http://127.0.0.1:3001
+	ProxyPassReverse http://127.0.0.1:3001
+	RequestHeader set x-context-root "slack"
+</LocationMatch>
+
+<LocationMatch "/metrics">
+	ProxyPass http://127.0.0.1:3002
+	ProxyPassReverse http://127.0.0.1:3002
+	RequestHeader set x-context-root "metrics"
+</LocationMatch>
+
+<LocationMatch "/viewer">
+	ProxyPass http://127.0.0.1:3004
+	ProxyPassReverse http://127.0.0.1:3004
+	RequestHeader set x-context-root "viewer"
+</LocationMatch>
+
+<LocationMatch "/citizen">
+	ProxyPass http://127.0.0.1:3005
+	ProxyPassReverse http://127.0.0.1:3005
+	RequestHeader set x-context-root "citizen"
+</LocationMatch>
+
+<LocationMatch "/doc">
+	ProxyPass http://127.0.0.1:4000/doc/
+	ProxyPassReverse http://127.0.0.1:4000/doc/
+	RequestHeader set x-context-root "citizen"
+</LocationMatch>
+
+<LocationMatch "/v1">
+	ProxyPass http://127.0.0.1:3000/v1
+	ProxyPassReverse http://127.0.0.1:3000/v0
+	RequestHeader set x-context-root "v0"
+</LocationMatch>
+
+<LocationMatch "/">
+	ProxyPass http://127.0.0.1:3000/
+	ProxyPassReverse http://127.0.0.1:3000/
+	RequestHeader set x-context-root ""
+</LocationMatch>
+```
 
 ## Contributing
 
