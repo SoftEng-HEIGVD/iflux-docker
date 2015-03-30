@@ -80,12 +80,12 @@ Once everything is running, you will be able to access different services:
 
 | Service             | Url                  | Repository |
 | ------------------- | -------------------- | ---------- |
-| iFLUX Server        | http://{IP}:3000     | https://github.com/SoftEng-HEIGVD/iflux-server-node
-| iFLUX Slack Gateway | http://{IP}:3001     | https://github.com/SoftEng-HEIGVD/iflux-slack-gateway
-| iFLUX Metrics       | http://{IP}:3002     | https://github.com/SoftEng-HEIGVD/iflux-metrics-action-target
-| iFLUX MapBox Viewer | http://{IP}:3004     | https://github.com/SoftEng-HEIGVD/iflux-mapbox-viewer
-| Citizen Engagement  | http://{IP}:3005/api | https://github.com/SoftEng-HEIGVD/Teaching-HEIGVD-CM_WEBS-2015-Labo-Express-Impl
-| iFLUX Blog          | http://{IP}:4000     | https://github.com/SoftEng-HEIGVD/iFLUX.io
+| iFLUX Server        | http://{IP}:3000     | [iflux-server-node](https://github.com/SoftEng-HEIGVD/iflux-server-node)
+| iFLUX Slack Gateway | http://{IP}:3001     | [iflux-slack-gateway](https://github.com/SoftEng-HEIGVD/iflux-slack-gateway)
+| iFLUX Metrics       | http://{IP}:3002     | [iflux-metrics-action-target](https://github.com/SoftEng-HEIGVD/iflux-metrics-action-target)
+| iFLUX MapBox Viewer | http://{IP}:3004     | [iflux-mapbox-viewer](https://github.com/SoftEng-HEIGVD/iflux-mapbox-viewer)
+| Citizen Engagement  | http://{IP}:3005/api | [Teaching-HEIGVD-CM_WEBS-2015-Labo-Express-Impl](https://github.com/SoftEng-HEIGVD/Teaching-HEIGVD-CM_WEBS-2015-Labo-Express-Impl)
+| iFLUX Blog          | http://{IP}:4000     | [iFLUX.io](https://github.com/SoftEng-HEIGVD/iFLUX.io)
 | Mongo DB            | mongo://{IP}:27017   | n/a
 
 ### iFLUX Server
