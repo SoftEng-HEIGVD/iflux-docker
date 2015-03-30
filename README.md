@@ -178,8 +178,8 @@ The following configuration is a proposal to configure Apache to serve the iFLUX
 
 <LocationMatch "/v1">
 	ProxyPass http://127.0.0.1:3000/v1
-	ProxyPassReverse http://127.0.0.1:3000/v0
-	RequestHeader set x-context-root "v0"
+	ProxyPassReverse http://127.0.0.1:3000/v1
+	RequestHeader set x-context-root "v1"
 </LocationMatch>
 
 <LocationMatch "/">
