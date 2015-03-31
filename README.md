@@ -146,47 +146,49 @@ Starting script run when `docker-compose up` is invoked to make sure the `iFLUX`
 The following configuration is a proposal to configure Apache to serve the iFLUX components as a reverse proxy.
 
 ```bash
-<LocationMatch "/slack">
-	ProxyPass http://127.0.0.1:3001
-	ProxyPassReverse http://127.0.0.1:3001
-	RequestHeader set x-context-root "slack"
-</LocationMatch>
-
-<LocationMatch "/metrics">
-	ProxyPass http://127.0.0.1:3002
-	ProxyPassReverse http://127.0.0.1:3002
-	RequestHeader set x-context-root "metrics"
-</LocationMatch>
-
-<LocationMatch "/viewer">
-	ProxyPass http://127.0.0.1:3004
-	ProxyPassReverse http://127.0.0.1:3004
-	RequestHeader set x-context-root "viewer"
-</LocationMatch>
+RewriteEngine  on
 
 <LocationMatch "/citizen">
-	ProxyPass http://127.0.0.1:3005
-	ProxyPassReverse http://127.0.0.1:3005
-	RequestHeader set x-context-root "citizen"
+	RequestHeader setifempty x-context-root "citizen"
 </LocationMatch>
 
 <LocationMatch "/doc">
-	ProxyPass http://127.0.0.1:4000/doc/
-	ProxyPassReverse http://127.0.0.1:4000/doc/
-	RequestHeader set x-context-root "citizen"
+	RequestHeader setifempty x-context-root "doc"
+</LocationMatch>
+
+<LocationMatch "/slack">
+	RequestHeader setifempty x-context-root "slack"
+</LocationMatch>
+
+<LocationMatch "metrics">
+ 	RequestHeader setifempty x-context-root "metrics"
+</LocationMatch>
+
+<LocationMatch "/viewer">
+	RequestHeader setifempty x-context-root "viewer"
 </LocationMatch>
 
 <LocationMatch "/v1">
-	ProxyPass http://127.0.0.1:3000/v1
-	ProxyPassReverse http://127.0.0.1:3000/v1
-	RequestHeader set x-context-root "v1"
+	RequestHeader setifempty x-context-root "v1"
 </LocationMatch>
 
-<LocationMatch "/">
-	ProxyPass http://127.0.0.1:3000/
-	ProxyPassReverse http://127.0.0.1:3000/
-	RequestHeader set x-context-root ""
-</LocationMatch>
+RewriteRule ^/citizen(.*)$ http://127.0.0.1:3003$1 [P]
+ProxyPassReverse /citizen http://127.0.0.1:3003/citizen
+
+RewriteRule ^/doc(.*)$ http://127.0.0.1:4000/doc$1 [P]
+ProxyPassReverse /doc http://127.0.0.1:4000/doc
+
+RewriteRule ^/metrics(.*)$ http://127.0.0.1:3002$1 [P]
+ProxyPassReverse /metrics http://127.0.0.1:3002/metrics
+
+RewriteRule ^slack/(.*)$ http://127.0.0.1:3001$1 [P]
+ProxyPassReverse /slack http://127.0.0.1:3001/slack
+
+RewriteRule ^/viewer(.*)$ http://127.0.0.1:3004$1 [P]
+ProxyPassReverse /viewer http://127.0.0.1:3004/viewer
+
+RewriteRule ^(.*)$ http://127.0.0.1::3000$1 [P]
+ProxyPassReverse / http://127.0.0.1::3000/
 ```
 
 ## Contributing
