@@ -20,7 +20,7 @@ ifluxslack:
   ports:
     - "3001:3000"
 ifluxmetrics:
-  image: softengheigvd/iflux-metrics-action-target:v0.2.0
+  image: softengheigvd/iflux-metrics-action-target:v0.2.2
   env_file: ./.env
   links:
     - mongo
