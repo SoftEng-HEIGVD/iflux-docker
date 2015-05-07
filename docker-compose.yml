@@ -12,7 +12,7 @@ ifluxsrv:
     - mongo
 ifluxsrvdata:
   build: iflux-server-data
-  volumes:docker
+  volumes:
     - "/data/db:/data/db"
 ifluxslack:
   image: softengheigvd/iflux-slack-gateway:v0.2.0
