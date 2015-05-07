@@ -1,5 +1,5 @@
-ifluxblog:
-  image: softengheigvd/iflux.io:latest
+ifluxapidoc:
+  image: softengheigvd/iflux-apidoc:latest
   env_file: ./.env
   ports:
     - "4000:4000"
@@ -12,7 +12,7 @@ ifluxsrv:
     - mongo
 ifluxsrvdata:
   build: iflux-server-data
-  volumes:
+  volumes:docker
     - "/data/db:/data/db"
 ifluxslack:
   image: softengheigvd/iflux-slack-gateway:v0.2.0
