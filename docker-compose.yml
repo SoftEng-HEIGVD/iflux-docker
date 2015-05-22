@@ -9,11 +9,12 @@ ifluxsrv:
   ports:
     - "3000:3000"
   links:
-    - mongo
+    - postgresql
 ifluxsrvdata:
   build: iflux-server-data
   volumes:
-    - "/data/db:/data/db"
+    - "/data/db/mongo:/data/db"
+    - "/data/db/postgres:/var/lib/postgresql/data"
 ifluxslack:
   image: softengheigvd/iflux-slack-gateway:v0.2.0
   env_file: ./.env
@@ -58,4 +59,13 @@ mongo:
     - "27017:27017"
   volumes_from:
     - ifluxsrvdata
-
+postgresql:
+  image: postgres:9.4
+  volumes_from:
+    - ifluxsrvdata
+  volumes:
+    - "db:/docker-entrypoint-initdb.d"
+  ports:
+    - 5432:5432
+  env_file:
+    - .env

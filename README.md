@@ -27,6 +27,10 @@ IFLUX_SERVER_URL=http://<replaceWithTheBoot2DockerIp>:3000
 IFLUX_SITE_URL=http://<replaceWithTheBoot2DockerIp>:4000
 ENABLE_SLACK=<true|false>
 NODE_ENV=docker
+JWT_SECRET=<anyLongRandomStringWithAtLeast256Caracters>
+DB_NAME=ifluxsrv
+DB_USER=ifluxsrv
+DB_PASS=ifluxsrv
 ```
 
 ## Run it with boot2docker
@@ -48,10 +52,6 @@ $> boot2docker ip
 
 # REMARK: Replace the relevant data into the .env
 
-# Build part of the containers
-$> cd <projectRootDirectory>
-$> docker-compose build
-
 # Run the containers (this will take a while due to the download of the containers)
 $> docker-compose up
 
@@ -59,20 +59,6 @@ $> docker-compose up
 
 $> docker-compose up -d
 ```
-
-## Run it with Vagrant
-
-The `Vagrant` file define the `public IP` of the VM to be `172.17.8.100`.
-
-```bash
-# Run the following command in the root directory
-$> vagrant up
-```
-
-**Remark:** This is experimental and the provisioning part is sometimes crashing. When it happens, relaunch the same command
-until the process succeed.
-
-**Remark:** Due to the latest changes, vagrant is no more supported at the moment.
 
 ## Use it
 
