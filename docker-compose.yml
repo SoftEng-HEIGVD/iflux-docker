@@ -10,11 +10,21 @@ ifluxsrv:
     - "3000:3000"
   links:
     - postgresql
+    - kafka
+ifluxapi:
+  image: softengheigvd/iflux-api-gateway-node:latest
+  env_file: ./.env
+  ports:
+    - "3000:3000"
+  links:
+    - kafka
 ifluxsrvdata:
   build: iflux-server-data
   volumes:
     - "/data/db/mongo:/data/db"
     - "/data/db/postgres:/var/lib/postgresql/data"
+    - "/data/kafka:/kafka"
+    - "/data/esearch:/usr/share/elasticsearch/data"
 ifluxslack:
   image: softengheigvd/iflux-slack-gateway:v0.2.0
   env_file: ./.env
@@ -69,3 +79,34 @@ postgresql:
     - 5432:5432
   env_file:
     - .env
+kafka:
+  image: wurstmeister/kafka
+  ports:
+    - "9092:9092"
+  links:
+    - zookeeper:zk
+  environment:
+    KAFKA_CREATE_TOPICS: "iflux-events:1:1"
+  env_file:
+    - .env
+  volumes_from:
+    - ifluxsrvdata
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+zookeeper:
+  image: wurstmeister/zookeeper
+  ports:
+    - "2181:2181"
+elasticsearch:
+  image: elasticsearch:1.5.2
+  volumes_from:
+    - ifluxsrvdata
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+kibana:
+  image: shortishly/kibana
+  links:
+    - elasticsearch
+  ports:
+    - "5601:5601"
