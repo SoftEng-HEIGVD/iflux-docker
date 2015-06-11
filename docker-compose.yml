@@ -4,33 +4,48 @@ ifluxapidoc:
   ports:
     - "4000:4000"
 ifluxsrv:
-  image: softengheigvd/iflux-server-node:v0.2.0
+  image: softengheigvd/iflux-server-node:bookshelf
   env_file: ./.env
   ports:
-    - "3000:3000"
+    - 3000:3000
   links:
-    - mongo
+    - postgresql
+    - kafka
+    - zookeeper:zk
+    - elasticsearch:es
+ifluxapi:
+  image: softengheigvd/iflux-api-gateway-node:latest
+  env_file: ./.env
+  ports:
+    - 3005:3000
+  links:
+    - ifluxsrv
+    - kafka
+    - zookeeper:zk
 ifluxsrvdata:
   build: iflux-server-data
   volumes:
-    - "/data/db:/data/db"
+    - "/data/db/mongo:/data/db"
+    - "/data/db/postgres:/var/lib/postgresql/data"
+    - "/data/kafka:/kafka"
+    - "/data/esearch:/usr/share/elasticsearch/data"
 ifluxslack:
   image: softengheigvd/iflux-slack-gateway:v0.2.0
   env_file: ./.env
   ports:
-    - "3001:3000"
+    - 3001:3000
 ifluxmetrics:
   image: softengheigvd/iflux-metrics-action-target:v0.2.2
   env_file: ./.env
   links:
     - mongo
   ports:
-    - "3002:3000"
+    - 3002:3000
 ifluxmapbox:
   image: softengheigvd/iflux-mapbox-viewer:v0.2.1
   env_file: ./.env
   ports:
-    - "3004:3000"
+    - 3004:3000
   env_file:
     .env
 ifluxstarter:
@@ -47,7 +62,7 @@ citizen:
   links:
     - mongo
   ports:
-    - "3003:3000"
+    - 3003:3000
 publibike:
   image: softengheigvd/iflux-publibike-event-source:v0.1.3
   env_file: ./.env
@@ -55,7 +70,47 @@ mongo:
   image: mongo
   command: mongod --smallfiles
   ports:
-    - "27017:27017"
+    - 27017:27017
   volumes_from:
     - ifluxsrvdata
-
+postgresql:
+  image: postgres:9.4
+  volumes_from:
+    - ifluxsrvdata
+  volumes:
+    - "db:/docker-entrypoint-initdb.d"
+  ports:
+    - 5432:5432
+  env_file:
+    - .env
+kafka:
+  image: wurstmeister/kafka
+  ports:
+    - 9092:9092
+  links:
+    - zookeeper:zk
+  environment:
+    KAFKA_CREATE_TOPICS: "iflux-events:1:1"
+  env_file:
+    - .env
+  volumes_from:
+    - ifluxsrvdata
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+zookeeper:
+  image: wurstmeister/zookeeper
+  ports:
+    - 2181:2181
+elasticsearch:
+  image: elasticsearch:1.5.2
+  volumes_from:
+    - ifluxsrvdata
+  ports:
+    - 9200:9200
+    - 9300:9300
+kibana:
+  image: shortishly/kibana
+  links:
+    - elasticsearch
+  ports:
+    - 5601:5601
