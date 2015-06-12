@@ -35,6 +35,7 @@ NODE_ENV=docker
 JWT_SECRET=<generateUniqueLongAlphaNumString>
 
 # Kafka configuration for iFLUX (maybe you have to open the port 9092 on your host if you run docker natively on linux)
+# https://github.com/wurstmeister/kafka-docker/issues/17 (see two last comments and especially the second to last)
 KAFKA_ADVERTISED_HOST_NAME=<VM IP or HOST IP>
 KAFKA_ADVERTISED_PORT=9092
 
