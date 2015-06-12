@@ -66,7 +66,20 @@ $> boot2docker shellinit
 # Retrieve the external IP of the VM
 $> boot2docker ip
 
+######################################################
+# <START> The first time you do the setup and the run
+######################################################
 # REMARK: Replace the relevant data into the .env
+
+# Retrieve all the images used by iflux (take time, go have a coffee)
+$> docker-compose pull 
+
+# Initialize Postgresql
+$> docker-compose run --rm postgresqlwait
+
+######################################################
+# <END> The first time you do the setup and the run
+######################################################
 
 # Run the containers in the background (choose one of the two components)
 $> docker-compose up -d <rp | rplight>
@@ -82,6 +95,33 @@ $> cd <rootDirectoryOfTheProject>
 
 # Take your patience !
 $> vagrant up
+```
+
+# Option 3 - Native Linux system
+
+```bash
+$> cd <rootDirectoryOfTheProject>
+
+######################################################
+# <START> The first time you do the setup and the run
+######################################################
+# REMARK: Replace the relevant data into the .env
+
+# Retrieve all the images used by iflux (take time, go have a coffee)
+$> docker-compose pull 
+
+# Initialize Postgresql
+$> docker-compose run --rm postgresqlwait
+
+######################################################
+# <END> The first time you do the setup and the run
+######################################################
+
+# Run the containers in the background (choose one of the two components)
+$> docker-compose up -d <rp | rplight>
+
+# Check everything is up and running
+$> docker ps
 ```
 
 ## Use it

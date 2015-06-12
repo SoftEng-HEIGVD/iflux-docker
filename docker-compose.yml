@@ -7,11 +7,11 @@ ifluxapidoc:
 ifluxsrvdata:
   build: iflux-server-data
   volumes:
-    - "/data/db/mongo:/data/db"
-    - "/data/db/postgres:/var/lib/postgresql/data"
-    - "/data/kafka:/kafka"
-    - "/data/esearch:/usr/share/elasticsearch/data"
-    - "/data/slack:/data/slack"
+    - "/iflux/db/mongo:/data/db"
+    - "/iflux/db/postgres:/var/lib/postgresql/data"
+    - "/iflux/kafka:/kafka"
+    - "/iflux/esearch:/usr/share/elasticsearch/data"
+    - "/iflux/slack:/data/slack"
 
 ifluxsrv:
   image: softengheigvd/iflux-server-node:latest
@@ -97,6 +97,13 @@ postgresql:
     - 5432:5432
   env_file:
     - .env
+
+postgresqlwait:
+  image: n3llyb0y/wait
+  links:
+    - postgresql:db
+  environment:
+    PORTS: 5432
 
 zookeeper:
   image: wurstmeister/zookeeper
