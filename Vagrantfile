@@ -12,7 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Limitate the resources used by our VMs
   config.vm.provider :virtualbox do |v|
     v.gui = false
-    v.memory = 1024
+    v.memory = 2048
     v.cpus = 2
     v.customize ['modifyvm', :id, '--cpuexecutioncap', '70']
   end
@@ -24,40 +24,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Multiple machines can be defined within the same project Vagrantfile
   # using the config.vm.define method call.
   config.vm.define :iflux do |vdocker|
-
     # Install the latest version of Docker
-    vdocker.vm.provision :docker, type: :shell, inline: <<SH
-      echo "Installing Docker and Docker Compose"
-      sudo apt-get update $ sudo apt-get install wget
-      wget -qO- https://get.docker.com/ | sh
-			echo "Docker installed"
+    vdocker.vm.provision :docker, type: :shell, path: 'scripts/install.sh', run: 'once'
 
-			echo "Installing Docker Compose"
-			export ARCH=$(uname -m)
-			export DIST=$(uname -s)
- 			curl -L "https://github.com/docker/compose/releases/download/1.2.0/docker-compose-$DIST-$ARCH" > /usr/local/bin/docker-compose;
-			chmod +x /usr/local/bin/docker-compose
-			echo "Docker Compose installed"
-SH
-
-		vdocker.vm.provision :iflux_prepare, type: :shell, privileged: false, inline: <<SH
-			mkdir -p #{IFLUX_HOME}
-			echo 'Prepare env file'
-			sed 's/:.*:/:\\/\\/#{HOST_IP}:/' < /home/vagrant/mnt/.env > #{IFLUX_HOME}/.env
-			echo 'Prepare compose file - step 1'
-			sed 's/build: /build: \\/home\\/vagrant\\/mnt\\//' < /home/vagrant/mnt/docker-compose.yml > #{IFLUX_HOME}/docker-compose.yml
-			echo 'Prepare compose file - step 2'
-			sed -i -e 's/\\.env/\\/home\\/vagrant\\/iflux-docker\\/.env/' #{IFLUX_HOME}/docker-compose.yml
-			echo 'iFLUX Docker config ready'
-SH
+    # Configure
+		vdocker.vm.provision :iflux_prepare, type: :shell, path: 'scripts/configure.sh', args: [ IFLUX_HOME, HOST_IP ]
 
     # Install Docker Compose
-    vdocker.vm.provision :docker_run, type: :shell, inline: <<SH
-			cd #{IFLUX_HOME}
-			echo "Starting containers"
-			sudo docker-compose up -d rp
-			echo "iFLUX containers started"
-SH
+    vdocker.vm.provision :docker_run, type: :shell, path: 'scripts/run.sh', args: [ IFLUX_HOME ]
 
     # vdocker.vm.network :forwarded_port, guest: 2181, host: 2181
     vdocker.vm.network :forwarded_port, guest: 3000, host: 3000
