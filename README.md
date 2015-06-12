@@ -13,31 +13,47 @@
 
 Install:
 
+## First option
 1. [Docker](http://docs.docker.com/installation/mac/)
 2. [Docker Compose](http://docs.docker.com/compose/install/)
-3. [Vagrant](http://www.vagrantup.com/downloads) (optional, no procedure documented yet)
+
+## Second option
+1. [Vagrant](http://www.vagrantup.com/downloads)
 
 ## Setup
 
 Create the file `.env` in the root directory of the project. This file will not be commited. The content is the following:
 
 ```bash
-SLACK_BOT_TOKEN=xoxb-<replaceWithTheSlackBotToken>
-IFLUX_SERVER_URL=http://<replaceWithTheBoot2DockerIp>:3000
-IFLUX_SITE_URL=http://<replaceWithTheBoot2DockerIp>:4000
+# To enable/disable Slack integration
 ENABLE_SLACK=<true|false>
+
+# To force the applications using the docker ready configurations
 NODE_ENV=docker
-JWT_SECRET=<anyLongRandomStringWithAtLeast256Caracters>
+
+# Private secret for JWT management in iFLUX Server
+JWT_SECRET=<generateUniqueLongAlphaNumString>
+
+# Kafka configuration for iFLUX
+KAFKA_ADVERTISED_HOST_NAME=<VM IP>
+KAFKA_ADVERTISED_PORT=9092
+
+# Elastic search configuration for iFLUX
+ELASTICSEARCH_ENDPOINT=http://<VM IP>:9200
+
+# The database data for iFLUX
 DB_NAME=ifluxsrv
 DB_USER=ifluxsrv
-DB_PASS=ifluxsrv
+DB_PASS=ifluxsrv```
 ```
 
-## Run it with boot2docker
+## First Option - Boot2Docker
 
 Run the following commands:
 
 ```bash
+$> cd <rootDirectoryOfTheProject>
+
 # The first time
 $> boot2docker init
 
@@ -52,27 +68,46 @@ $> boot2docker ip
 
 # REMARK: Replace the relevant data into the .env
 
-# Run the containers (this will take a while due to the download of the containers)
-$> docker-compose up
+# Run the containers in the background (choose one of the two components)
+$> docker-compose up -d <rp | rplight>
 
-# Or if you want to run it in the background
+# Check everything is up and running
+$> docker ps
+```
 
-$> docker-compose up -d
+# Option 2 - Vagrant
+
+```bash
+$> cd <rootDirectoryOfTheProject>
+
+# Take your patience !
+$> vagrant up
 ```
 
 ## Use it
 
 Once everything is running, you will be able to access different services:
 
-| Service             | Url                  | Repository |
-| ------------------- | -------------------- | ---------- |
-| iFLUX Server        | http://{IP}:3000     | [iflux-server-node](https://github.com/SoftEng-HEIGVD/iflux-server-node)
-| iFLUX Slack Gateway | http://{IP}:3001     | [iflux-slack-gateway](https://github.com/SoftEng-HEIGVD/iflux-slack-gateway)
-| iFLUX Metrics       | http://{IP}:3002     | [iflux-metrics-action-target](https://github.com/SoftEng-HEIGVD/iflux-metrics-action-target)
-| iFLUX MapBox Viewer | http://{IP}:3004     | [iflux-mapbox-viewer](https://github.com/SoftEng-HEIGVD/iflux-mapbox-viewer)
-| Citizen Engagement  | http://{IP}:3005/api | [Teaching-HEIGVD-CM_WEBS-2015-Labo-Express-Impl](https://github.com/SoftEng-HEIGVD/Teaching-HEIGVD-CM_WEBS-2015-Labo-Express-Impl)
-| iFLUX Blog          | http://{IP}:4000     | [iFLUX.io](https://github.com/SoftEng-HEIGVD/iFLUX.io)
-| Mongo DB            | mongo://{IP}:27017   | n/a
+| Service             | Url                            | Repository |
+| ------------------- | ------------------------------ | ---------- |
+| iFLUX Gateway       | http://{IP}:3000/api/v1/events | [iflux-api-gateway-node](https://github.com/SoftEng-HEIGVD/iflux-api-gateway-node)
+| iFLUX Server        | http://{IP}:3000/api/v1/*      | [iflux-server-node](https://github.com/SoftEng-HEIGVD/iflux-server-node)
+| iFLUX Slack Gateway | http://{IP}:3000/slack         | [iflux-slack-gateway](https://github.com/SoftEng-HEIGVD/iflux-slack-gateway)
+| iFLUX Metrics       | http://{IP}:3000/metrics       | [iflux-metrics-action-target](https://github.com/SoftEng-HEIGVD/iflux-metrics-action-target)
+| iFLUX MapBox Viewer | http://{IP}:3000/viewer        | [iflux-mapbox-viewer](https://github.com/SoftEng-HEIGVD/iflux-mapbox-viewer)
+| Citizen Engagement  | http://{IP}:3000/citizen/api   | [Teaching-HEIGVD-CM_WEBS-2015-Labo-Express-Impl](https://github.com/SoftEng-HEIGVD/Teaching-HEIGVD-CM_WEBS-2015-Labo-Express-Impl)
+| Publibike poller    | n/a                            | [iflux-publibike-event-source](https://github.com/SoftEng-HEIGVD/iflux-publibike-event-source)
+| iFLUX API Doc       | http://{IP}:3000/doc           | [iflux-apidoc](https://github.com/SoftEng-HEIGVD/iflux-apidoc)
+| Kibana              | http://{IP}:3000/kibana        | [Project](https://www.elastic.co/products/kibana)
+| Elasticsearch       | {IP}:9200/9300                 | [Project](https://www.elastic.co/products/elasticsearch)
+| Kafka               | {IP}:9092                      | [Project](http://kafka.apache.org/)
+| Zookeeper           | {IP}:2181                      | [Project](https://zookeeper.apache.org/)
+| Postgresql          | {IP}:5432                      | [Product](http://www.postgresql.org/)
+| Mongo DB            | mongo://{IP}:27017             | [Product](http://www.mongodb.org/)
+
+### iFLUX Gateway
+
+This component will receive the events and forward them to iFLUX Server through [Kafka](http://kafka.apache.org/).
 
 ### iFLUX Server
 
@@ -86,6 +121,11 @@ Integration with [Slack](https://slack.com/) to send text messages on a specific
 
 Collect and store metrics in a Mongo DB.
 
+### iFLUX MapBox Viewer
+
+Demo application to show visual representation of the `actions` triggered from the `events` received on `iFLUX` server from
+sources like `Citizen Engagement` app or `Publibike` app.
+
 ### Citizen Engagement
 
 Demonstration backend done in the context of HEIG-VD course. Citizen Engagement offers an API to create new issues to assign
@@ -93,89 +133,15 @@ to users. An issue consist of a localized problem located in a city. Take a look
 
 ### Publibike poller
 
-Demonstration application to collect data about the [Publibike](https://www.publibike.ch). The [repository](https://github.com/SoftEng-HEIGVD/iflux-publibike-event-source).
+Demonstration application to collect data about the [Publibike](https://www.publibike.ch).
 
-### iFLUX MapBox Viewer
+### API Doc
 
-Demo application to show visual representation of the `actions` triggered from the `events` received on `iFLUX` server from
-sources like `Citizen Engagement` app or `Publibike` app.
-
-### Technical components
+Static content to show the documentation of the iFLUX API for the iFLUX Server and iFLUX Gateway.
 
 #### Citizen Simulator
 
 An [API Copilot](https://github.com/lotaris/api-copilot) script to simulate relative natural data occurring in `Citizen Engagement` app.
-
-#### iFLUX Client
-
-The `nodejs` client to send events to `iFLUX`.
-
-#### iFLUX Server Data
-
-Docker container to store the data for Mongo DB. Currently, `Citizen Engagement`, `iFLUX Server` and `iFLUX Metrics` share the same mongo instance. All their data
-are stored in the same data container.
-
-#### iFLUX Server Migrator
-
-Specialized container to allow data migration of the `iFLUX Server` Mongo DB. To run a migration, run:
-
-```bash
-$> docker run -e NODE_ENV=docker --link /ifluxdocker_mongo_1:mongo <IFLUXSERVER_MIGRATOR_IMAGE_ID>
-```
-
-#### iFLUX Starter
-
-Starting script run when `docker-compose up` is invoked to make sure the `iFLUX` rules are setup correctly.
-
-## Apache as a reverse proxy
-
-The following configuration is a proposal to configure Apache to serve the iFLUX components as a reverse proxy.
-
-```bash
-RewriteEngine  on
-
-<LocationMatch "/citizen">
-	RequestHeader setifempty x-context-root "citizen"
-</LocationMatch>
-
-<LocationMatch "/doc">
-	RequestHeader setifempty x-context-root "doc"
-</LocationMatch>
-
-<LocationMatch "/slack">
-	RequestHeader setifempty x-context-root "slack"
-</LocationMatch>
-
-<LocationMatch "metrics">
- 	RequestHeader setifempty x-context-root "metrics"
-</LocationMatch>
-
-<LocationMatch "/viewer">
-	RequestHeader setifempty x-context-root "viewer"
-</LocationMatch>
-
-<LocationMatch "/v1">
-	RequestHeader setifempty x-context-root "v1"
-</LocationMatch>
-
-RewriteRule ^/citizen(.*)$ http://127.0.0.1:3003$1 [P]
-ProxyPassReverse /citizen http://127.0.0.1:3003/citizen
-
-RewriteRule ^/doc(.*)$ http://127.0.0.1:4000/doc$1 [P]
-ProxyPassReverse /doc http://127.0.0.1:4000/doc
-
-RewriteRule ^/metrics(.*)$ http://127.0.0.1:3002$1 [P]
-ProxyPassReverse /metrics http://127.0.0.1:3002/metrics
-
-RewriteRule ^slack/(.*)$ http://127.0.0.1:3001$1 [P]
-ProxyPassReverse /slack http://127.0.0.1:3001/slack
-
-RewriteRule ^/viewer(.*)$ http://127.0.0.1:3004$1 [P]
-ProxyPassReverse /viewer http://127.0.0.1:3004/viewer
-
-RewriteRule ^(.*)$ http://127.0.0.1::3000$1 [P]
-ProxyPassReverse / http://127.0.0.1::3000/
-```
 
 ## Contributing
 

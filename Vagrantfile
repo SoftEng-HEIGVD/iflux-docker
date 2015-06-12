@@ -27,31 +27,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Install the latest version of Docker
     vdocker.vm.provision :docker, type: :shell, inline: <<SH
-      # If you'd like to try the latest version of Docker:
-      # First, check that your APT system can deal with https URLs:
-      # the file /usr/lib/apt/methods/https should exist.
-      # If it doesn't, you need to install the package apt-transport-https.
-      [ -e /usr/lib/apt/methods/https ] || {
-      apt-get -y update
-      apt-get -y install apt-transport-https
-      }
-      # Then, add the Docker repository key to your local keychain.
-      sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
-      # Add the Docker repository to your apt sources list,
-      # update and install the lxc-docker package.
-      # You may receive a warning that the package isn't trusted.
-      # Answer yes to continue installation.
-      sh -c "echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
-      apt-get -y update
-      apt-get -y install lxc-docker
-SH
+      echo "Installing Docker and Docker Compose"
+      sudo apt-get update $ sudo apt-get install wget
+      wget -qO- https://get.docker.com/ | sh
+			echo "Docker installed"
 
-    # Install Docker Compose
-    vdocker.vm.provision :compose, type: :shell, inline: <<SH
 			echo "Installing Docker Compose"
 			export ARCH=$(uname -m)
 			export DIST=$(uname -s)
- 			curl -L "https://github.com/docker/compose/releases/download/1.1.0/docker-compose-$DIST-$ARCH" > /usr/local/bin/docker-compose;
+ 			curl -L "https://github.com/docker/compose/releases/download/1.2.0/docker-compose-$DIST-$ARCH" > /usr/local/bin/docker-compose;
 			chmod +x /usr/local/bin/docker-compose
 			echo "Docker Compose installed"
 SH
@@ -67,27 +51,29 @@ SH
 			echo 'iFLUX Docker config ready'
 SH
 
-		vdocker.vm.provision :docker_build, type: :shell, inline: <<SH
-			cd #{IFLUX_HOME}
-			echo "Building containers"
-			docker-compose build
-			echo "iFLUX images built"
-SH
-
     # Install Docker Compose
     vdocker.vm.provision :docker_run, type: :shell, inline: <<SH
 			cd #{IFLUX_HOME}
 			echo "Starting containers"
-			docker-compose up -d
+			sudo docker-compose up -d rp
 			echo "iFLUX containers started"
 SH
 
+    # vdocker.vm.network :forwarded_port, guest: 2181, host: 2181
     vdocker.vm.network :forwarded_port, guest: 3000, host: 3000
-		vdocker.vm.network :forwarded_port, guest: 3001, host: 3001
-		vdocker.vm.network :forwarded_port, guest: 3002, host: 3002
-		vdocker.vm.network :forwarded_port, guest: 3003, host: 3003
-		vdocker.vm.network :forwarded_port, guest: 3004, host: 3004
-		vdocker.vm.network :forwarded_port, guest: 4000, host: 4000
+    # vdocker.vm.network :forwarded_port, guest: 3001, host: 3001
+    # vdocker.vm.network :forwarded_port, guest: 3002, host: 3002
+    # vdocker.vm.network :forwarded_port, guest: 3003, host: 3003
+    # vdocker.vm.network :forwarded_port, guest: 3004, host: 3004
+    # vdocker.vm.network :forwarded_port, guest: 3005, host: 3005
+    # vdocker.vm.network :forwarded_port, guest: 3006, host: 3006
+    # vdocker.vm.network :forwarded_port, guest: 4000, host: 4000
+    # vdocker.vm.network :forwarded_port, guest: 5432, host: 5432
+    # vdocker.vm.network :forwarded_port, guest: 5601, host: 5601
+    # vdocker.vm.network :forwarded_port, guest: 9092, host: 9092
+    # vdocker.vm.network :forwarded_port, guest: 9200, host: 9200
+    # vdocker.vm.network :forwarded_port, guest: 9300, host: 9300
+    # vdocker.vm.network :forwarded_port, guest: 27017, host: 27017
 
     # Since we mount the dir using NFS we need a private network
     vdocker.vm.network :private_network, ip: HOST_IP
