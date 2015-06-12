@@ -34,8 +34,8 @@ NODE_ENV=docker
 # Private secret for JWT management in iFLUX Server
 JWT_SECRET=<generateUniqueLongAlphaNumString>
 
-# Kafka configuration for iFLUX
-KAFKA_ADVERTISED_HOST_NAME=<VM IP>
+# Kafka configuration for iFLUX (maybe you have to open the port 9092 on your host if you run docker natively on linux)
+KAFKA_ADVERTISED_HOST_NAME=<VM IP or HOST IP>
 KAFKA_ADVERTISED_PORT=9092
 
 # Elastic search configuration for iFLUX
