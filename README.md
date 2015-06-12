@@ -47,7 +47,7 @@ DB_USER=ifluxsrv
 DB_PASS=ifluxsrv```
 ```
 
-## First Option - Boot2Docker
+## First option - Boot2Docker
 
 Run the following commands:
 
@@ -88,7 +88,7 @@ $> docker-compose up -d <rp | rplight>
 $> docker ps
 ```
 
-# Option 2 - Vagrant
+# Second option - Vagrant
 
 ```bash
 $> cd <rootDirectoryOfTheProject>
@@ -97,7 +97,9 @@ $> cd <rootDirectoryOfTheProject>
 $> vagrant up
 ```
 
-# Option 3 - Native Linux system
+# Third option - Native Linux system
+
+> You should be sure that SELinux will not interfer in your setup. The path `/iflux` on your host must be accessible by Docker.
 
 ```bash
 $> cd <rootDirectoryOfTheProject>
