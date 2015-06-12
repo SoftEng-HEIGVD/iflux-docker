@@ -73,18 +73,12 @@ $> boot2docker ip
 
 # Retrieve all the images used by iflux (take time, go have a coffee)
 $> docker-compose pull 
-
-# Initialize Postgresql
-$> docker-compose run --rm postgresqlwait
 ######################################################
 # <END> The first time you do the setup and the run
 ######################################################
 
-# Run the containers in the background (choose one of the two components)
-$> docker-compose up -d <rp | rplight>
-
-# Check everything is up and running
-$> docker ps
+# Start the containers (default is rplight if no args provided to start)
+$> ./start.sh <rp|rplight>
 ```
 
 # Second option - Vagrant
@@ -110,18 +104,12 @@ $> cd <rootDirectoryOfTheProject>
 
 # Retrieve all the images used by iflux (take time, go have a coffee)
 $> docker-compose pull 
-
-# Initialize Postgresql
-$> docker-compose run --rm postgresqlwait
 ######################################################
 # <END> The first time you do the setup and the run
 ######################################################
 
-# Run the containers in the background (choose one of the two components)
-$> docker-compose up -d <rp | rplight>
-
-# Check everything is up and running
-$> docker ps
+# Start the containers (default is rplight if no args provided to start)
+$> ./start.sh <rp|rplight>
 ```
 
 ## Cleanup
