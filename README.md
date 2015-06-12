@@ -88,22 +88,22 @@ $> vagrant up
 
 Once everything is running, you will be able to access different services:
 
-| Service             | Url                            | Repository |
-| ------------------- | ------------------------------ | ---------- |
-| iFLUX Gateway       | http://{IP}:3000/api/v1/events | [iflux-api-gateway-node](https://github.com/SoftEng-HEIGVD/iflux-api-gateway-node)
-| iFLUX Server        | http://{IP}:3000/api/v1/*      | [iflux-server-node](https://github.com/SoftEng-HEIGVD/iflux-server-node)
-| iFLUX Slack Gateway | http://{IP}:3000/slack         | [iflux-slack-gateway](https://github.com/SoftEng-HEIGVD/iflux-slack-gateway)
-| iFLUX Metrics       | http://{IP}:3000/metrics       | [iflux-metrics-action-target](https://github.com/SoftEng-HEIGVD/iflux-metrics-action-target)
-| iFLUX MapBox Viewer | http://{IP}:3000/viewer        | [iflux-mapbox-viewer](https://github.com/SoftEng-HEIGVD/iflux-mapbox-viewer)
-| Citizen Engagement  | http://{IP}:3000/citizen/api   | [Teaching-HEIGVD-CM_WEBS-2015-Labo-Express-Impl](https://github.com/SoftEng-HEIGVD/Teaching-HEIGVD-CM_WEBS-2015-Labo-Express-Impl)
-| Publibike poller    | n/a                            | [iflux-publibike-event-source](https://github.com/SoftEng-HEIGVD/iflux-publibike-event-source)
-| iFLUX API Doc       | http://{IP}:3000/doc           | [iflux-apidoc](https://github.com/SoftEng-HEIGVD/iflux-apidoc)
-| Kibana              | http://{IP}:3000/kibana        | [Project](https://www.elastic.co/products/kibana)
-| Elasticsearch       | {IP}:9200/9300                 | [Project](https://www.elastic.co/products/elasticsearch)
-| Kafka               | {IP}:9092                      | [Project](http://kafka.apache.org/)
-| Zookeeper           | {IP}:2181                      | [Project](https://zookeeper.apache.org/)
-| Postgresql          | {IP}:5432                      | [Product](http://www.postgresql.org/)
-| Mongo DB            | mongo://{IP}:27017             | [Product](http://www.mongodb.org/)
+| Service             | Url                            | Mode        | Repository |
+| ------------------- | ------------------------------ |:-----------:| ---------- |
+| iFLUX Gateway       | http://{IP}:3000/api/v1/events | rp, rplight | [iflux-api-gateway-node](https://github.com/SoftEng-HEIGVD/iflux-api-gateway-node)
+| iFLUX Server        | http://{IP}:3000/api/v1/*      | rp, rplight | [iflux-server-node](https://github.com/SoftEng-HEIGVD/iflux-server-node)
+| iFLUX Slack Gateway | http://{IP}:3000/slack         | rp          | [iflux-slack-gateway](https://github.com/SoftEng-HEIGVD/iflux-slack-gateway)
+| iFLUX Metrics       | http://{IP}:3000/metrics       | rp          | [iflux-metrics-action-target](https://github.com/SoftEng-HEIGVD/iflux-metrics-action-target)
+| iFLUX MapBox Viewer | http://{IP}:3000/viewer        | rp          | [iflux-mapbox-viewer](https://github.com/SoftEng-HEIGVD/iflux-mapbox-viewer)
+| Citizen Engagement  | http://{IP}:3000/citizen/api   | rp          | [Teaching-HEIGVD-CM_WEBS-2015-Labo-Express-Impl](https://github.com/SoftEng-HEIGVD/Teaching-HEIGVD-CM_WEBS-2015-Labo-Express-Impl)
+| Publibike poller    | n/a                            | rp          | [iflux-publibike-event-source](https://github.com/SoftEng-HEIGVD/iflux-publibike-event-source)
+| iFLUX API Doc       | http://{IP}:3000/doc           | rp, rplight | [iflux-apidoc](https://github.com/SoftEng-HEIGVD/iflux-apidoc)
+| Kibana              | http://{IP}:3000/kibana        | rp, rplight | [Project](https://www.elastic.co/products/kibana)
+| Elasticsearch       | {IP}:9200/9300                 | rp, rplight | [Project](https://www.elastic.co/products/elasticsearch)
+| Kafka               | {IP}:9092                      | rp, rplight | [Project](http://kafka.apache.org/)
+| Zookeeper           | {IP}:2181                      | rp, rplight | [Project](https://zookeeper.apache.org/)
+| Postgresql          | {IP}:5432                      | rp, rplight | [Product](http://www.postgresql.org/)
+| Mongo DB            | mongo://{IP}:27017             | rp          | [Product](http://www.mongodb.org/)
 
 ### iFLUX Gateway
 
