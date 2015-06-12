@@ -124,6 +124,36 @@ $> docker-compose up -d <rp | rplight>
 $> docker ps
 ```
 
+## Cleanup
+
+Sometimes, you would like to clean all the running containers and start again with a fresh setup. Several options are avaible.
+
+### Clean running containers
+
+```bash
+$> docker rm -f `docker ps -qa`
+```
+
+> **CAUTION**: Be careful, using that method can corrupt your data. So, use that command only for dev purpose.
+
+### Clean data
+
+```bash
+$> (sudo) rm -rf /iflux/*
+```
+
+> If you use `Vagrant` or `Boot2Docker`, you need to connect to the VM to do the command.
+
+```bash
+$> boot2docker ssh
+boot2docker> sudo rm -rf /iflux/*
+```
+
+```bash
+$> vagrant ssh
+vagrant> sudo rm -rf /iflux/*
+```
+
 ## Use it
 
 Once everything is running, you will be able to access different services:
