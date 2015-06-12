@@ -44,7 +44,7 @@ ELASTICSEARCH_ENDPOINT=http://<VM IP>:9200
 # The database data for iFLUX
 DB_NAME=ifluxsrv
 DB_USER=ifluxsrv
-DB_PASS=ifluxsrv```
+DB_PASS=ifluxsrv
 ```
 
 ## First option - Boot2Docker
@@ -76,7 +76,6 @@ $> docker-compose pull
 
 # Initialize Postgresql
 $> docker-compose run --rm postgresqlwait
-
 ######################################################
 # <END> The first time you do the setup and the run
 ######################################################
@@ -114,7 +113,6 @@ $> docker-compose pull
 
 # Initialize Postgresql
 $> docker-compose run --rm postgresqlwait
-
 ######################################################
 # <END> The first time you do the setup and the run
 ######################################################
