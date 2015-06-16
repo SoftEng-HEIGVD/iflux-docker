@@ -76,7 +76,7 @@ citizen:
     - 3003:3000
 
 publibike:
-  image: softengheigvd/iflux-publibike-event-source:v0.1.3
+  image: softengheigvd/iflux-publibike-event-source:latest
   env_file: ./.env
 
 mongo:
