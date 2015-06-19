@@ -25,28 +25,168 @@ Install:
 Create the file `.env` in the root directory of the project. This file will not be commited. The content is the following:
 
 ```bash
-# To enable/disable Slack integration
-ENABLE_SLACK=<true|false>
-
-# To force the applications using the docker ready configurations
 NODE_ENV=docker
 
-# Private secret for JWT management in iFLUX Server
-JWT_SECRET=<generateUniqueLongAlphaNumString>
-
-# Kafka configuration for iFLUX (maybe you have to open the port 9092 on your host if you run docker natively on linux)
-# https://github.com/wurstmeister/kafka-docker/issues/17 (see two last comments and especially the second to last)
-KAFKA_ADVERTISED_HOST_NAME=<VM IP or HOST IP>
+###########################
+# Docker Compose Specific
+###########################
+KAFKA_ADVERTISED_HOST_NAME=<Boot2Docker IP>
 KAFKA_ADVERTISED_PORT=9092
 
-# Elastic search configuration for iFLUX
-ELASTICSEARCH_ENDPOINT=http://<VM IP>:9200
+################
+# Commons
+################
+# Used by: publibike, starter
+COMMON_IFLUX_API_URL=http://<Boot2Docker IP>:3000/api/v1
 
-# The database data for iFLUX
-DB_NAME=ifluxsrv
-DB_USER=ifluxsrv
-DB_PASS=ifluxsrv
+# Used by: slack, starter
+COMMON_SLACK_ENABLE=false
+
+################
+# Citizen
+################
+CITIZEN_ACTION_TYPE_ISSUE=http://<Boot2Docker IP>:3000/schemas/eventTypes/citizenIssue
+CITIZEN_ACTION_TYPE_STATUS=http://<Boot2Docker IP>:3000/schemas/eventTypes/citizenStatus
+CITIZEN_ACTION_TYPE_ACTION=http://<Boot2Docker IP>:3000/schemas/eventTypes/citizenAction
+
+####################
+# Citizen Simulator
+####################
+CITIZEN_SERVER_URL=http://<Boot2Docker IP>:3000/citizen
+
+################
+# IFLUX
+################
+IFLUX_SERVER_JWT_SECRET=<randomStringToBeKeptSecret>
+
+# Database info
+IFLUX_PG_DB_NAME=ifluxsrv
+IFLUX_PG_DB_USER=ifluxsrv
+IFLUX_PG_DB_PASS=ifluxsrv
+
+################
+# IFLUX STARTER
+################
+IFLUX_SCHEMAS_URL=http://<Boot2Docker IP>:3000/schemas
+CITIZEN_URL=http://<Boot2Docker IP>:3000/citizen
+METRICS_URL=http://<Boot2Docker IP>:3000/metrics
+SLACK_GATEWAY_URL=http://<Boot2Docker IP>:3000/slack
+VIEWBOX_URL=http://<Boot2Docker IP>:3000/view
+
+# Base data for iFLUX setup
+IFLUX_ADMIN_USER=admin@iflux.io
+IFLUX_ADMIN_PASSWORD=<anySecretPassword>
+
+# Token to configure the iFLUX Slack Gateway
+SLACK_GATEWAY_IFLUX_BOT_TOKEN=<ifluxSlackToken>
+
+############
+# Metrics
+############
+METRICS_ACTION_TYPE=http://<Boot2Docker IP>:3000/schemas/actionTypes/updateMetric
+
+############
+# Publibike
+############
+# Uncomment this var to customize the polling interval
+# PUBLIBIKE_POLL_INTERVAL=1234
+
+PUBLIBIKE_EVENT_TYPE=http://<Boot2Docker IP>:3000/schemas/eventTypes/publibikeMovement
+
+###########
+# Slack
+###########
+SLACK_ACTION_TYPE=http://<Boot2Docker IP>:3000/schemas/actionTypes/slackMessageSending
+
+###########
+# ViewBox
+###########
+VIEWBOX_ACTION_TYPE=http://<Boot2Docker IP>:3000/schemas/actionTypes/viewMarker
 ```
+
+### Description of the variables
+
+#### Standard
+
+| Name                       | Description                               |
+| -------------------------- | ----------------------------------------- |
+| NODE_ENV                   | Define the Docker environment to let each application to be configured in the right mode. |
+
+#### Docker compose related
+
+| Name                       | Description                               |
+| -------------------------- | ----------------------------------------- |
+| KAFKA_ADVERTISED_HOST_NAME | The IP where Kafka will be exposed outside (Boot2Docker IP, Vagrant VM IP, ...) |
+| KAFKA_ADVERTISED_PORT      | Default port is 9092. |
+
+#### Commons
+
+| Name                       | Description                               |
+| -------------------------- | ----------------------------------------- |
+| COMMON_IFLUX_API_URL       | Should be the URL to post events on iFLUX. |
+| COMMON_SLACK_ENABLE        | Enable/Disable Slack system. |
+
+#### Citizen Engagement
+
+| Name                       | Description                               |
+| -------------------------- | ----------------------------------------- |
+| CITIZEN_ACTION_TYPE_ISSUE  | Define the issue creation event type. Must be unique. | 
+| CITIZEN_ACTION_TYPE_STATUS | Define the issue status changes event type. Must be unique. |
+| CITIZEN_ACTION_TYPE_ACTION | Define the issue actions performed type. Must be unique. |
+
+#### Citizen Simulator
+
+| Name                       | Description                               |
+| -------------------------- | ----------------------------------------- |
+| CITIZEN_SERVER_URL         | Should be the URL to contact the Citizen Engagement API. |
+
+#### iFLUX
+
+| Name                       | Description                               |
+| -------------------------- | ----------------------------------------- |
+| IFLUX_SERVER_JWT_SECRET    | Must be a random string that will be used to cipher the JSON Web Tokens. |
+| IFLUX_PG_DB_NAME           | The database name. |
+| IFLUX_PG_DB_USER           | The database user name. |
+| IFLUX_PG_DB_PASS           | The database user password. |
+
+#### iFLUX Starter
+
+| Name                          | Description                               |
+| ----------------------------- | ----------------------------------------- |
+| IFLUX_ADMIN_USER              | To define the admin user name. |
+| IFLUX_ADMIN_PASSWORD          | To define the admin password. |
+| IFLUX_SCHEMAS_URL             | To define the base path for the event and action types. Take care the action and event types must be the same than the one configured in each project (citizen, metrics, slack and viewbox). |
+| CITIZEN_URL                   | The URL to contact the Citizen Engagement event source. |
+| METRICS_URL                   | The URL to contact the Metrics action target. |
+| SLACK_GATEWAY_URL             | The URL to contact Slack action target. |
+| VIEWBOX_URL                   | The URL to contact ViewBox action target. |
+| SLACK_GATEWAY_iFLUX_BOT_TOKEN | The iFLUX Bot Token that is used to connect to Slack. |
+
+#### Metrics
+
+| Name                       | Description                               |
+| -------------------------- | ----------------------------------------- |
+| METRICS_ACTION_TYPE        | Define the metrics action type. Must be unique. | 
+
+#### Publibike
+
+| Name                       | Description                               |
+| -------------------------- | ----------------------------------------- |
+| COMMON_IFLUX_API_URL       | Should be the URL to post events on iFLUX. |
+| PUBLIBIKE_EVENT_TYPE       | Define the publibike movement event type. Must be unique. | 
+| PUBLIBIKE_POLL_INTERVAL    | `optional`: Define the delay between to call to the Publibike API. |
+
+#### Slack
+
+| Name                       | Description                               |
+| -------------------------- | ----------------------------------------- |
+| SLACK_ACTION_TYPE          | Define the slack message type. Must be unique. |
+
+#### Slack
+
+| Name                       | Description                               |
+| -------------------------- | ----------------------------------------- |
+| VIEWBOX_ACTION_TYPE        | Define the marker action type. Must be unique. |
 
 ## First option - Boot2Docker
 
