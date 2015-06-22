@@ -22,7 +22,7 @@ Install:
 
 ## Setup
 
-Create the file `.env` in the root directory of the project. This file will not be commited. The content is the following:
+Copy the `env-sample` file to `.env` and update the values in it.
 
 ```bash
 NODE_ENV=docker

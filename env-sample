@@ -1,0 +1,78 @@
+NODE_ENV=docker
+
+###########################
+# Docker Compose Specific
+###########################
+KAFKA_ADVERTISED_HOST_NAME=<Boot2Docker IP>
+KAFKA_ADVERTISED_PORT=9092
+
+################
+# Commons
+################
+# Used by: publibike, starter
+COMMON_IFLUX_API_URL=http://<Boot2Docker IP>:3000/api/v1
+
+# Used by: slack, starter
+COMMON_SLACK_ENABLE=false
+
+################
+# Citizen
+################
+CITIZEN_ACTION_TYPE_ISSUE=http://<Boot2Docker IP>:3000/schemas/eventTypes/citizenIssue
+CITIZEN_ACTION_TYPE_STATUS=http://<Boot2Docker IP>:3000/schemas/eventTypes/citizenStatus
+CITIZEN_ACTION_TYPE_ACTION=http://<Boot2Docker IP>:3000/schemas/eventTypes/citizenAction
+
+####################
+# Citizen Simulator
+####################
+CITIZEN_SERVER_URL=http://<Boot2Docker IP>:3000/citizen
+
+################
+# IFLUX
+################
+IFLUX_SERVER_JWT_SECRET=<randomStringToBeKeptSecret>
+
+# Database info
+IFLUX_PG_DB_NAME=ifluxsrv
+IFLUX_PG_DB_USER=ifluxsrv
+IFLUX_PG_DB_PASS=ifluxsrv
+
+################
+# IFLUX STARTER
+################
+IFLUX_SCHEMAS_URL=http://<Boot2Docker IP>:3000/schemas
+CITIZEN_URL=http://<Boot2Docker IP>:3000/citizen
+METRICS_URL=http://<Boot2Docker IP>:3000/metrics
+SLACK_GATEWAY_URL=http://<Boot2Docker IP>:3000/slack
+VIEWBOX_URL=http://<Boot2Docker IP>:3000/view
+
+# Base data for iFLUX setup
+IFLUX_ADMIN_USER=admin@iflux.io
+IFLUX_ADMIN_PASSWORD=<anySecretPassword>
+
+# Token to configure the iFLUX Slack Gateway
+SLACK_GATEWAY_IFLUX_BOT_TOKEN=<ifluxSlackToken>
+
+############
+# Metrics
+############
+METRICS_ACTION_TYPE=http://<Boot2Docker IP>:3000/schemas/actionTypes/updateMetric
+
+############
+# Publibike
+############
+# Uncomment this var to customize the polling interval
+# PUBLIBIKE_POLL_INTERVAL=1234
+
+PUBLIBIKE_SOURCE=
+PUBLIBIKE_EVENT_TYPE=http://<Boot2Docker IP>:3000/schemas/eventTypes/publibikeMovement
+
+###########
+# Slack
+###########
+SLACK_ACTION_TYPE=http://<Boot2Docker IP>:3000/schemas/actionTypes/slackMessageSending
+
+###########
+# ViewBox
+###########
+VIEWBOX_ACTION_TYPE=http://<Boot2Docker IP>:3000/schemas/actionTypes/viewMarker
