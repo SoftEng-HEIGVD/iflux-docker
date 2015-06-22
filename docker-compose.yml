@@ -62,14 +62,9 @@ ifluxmapbox:
   volumes_from:
     - ifluxsrvdata
 
-#ifluxstarter:
-#  image: softengheigvd/iflux-server-starter:v0.0.4
-#  env_file: ./.env
-#  links:
-#    - ifluxsrv
-#    - ifluxslack
-#    - ifluxmetrics
-#    - ifluxmapbox
+ifluxstarter:
+  image: softengheigvd/iflux-server-starter:latest
+  env_file: ./.env
 
 citizen:
   image: softengheigvd/citizen:latest
