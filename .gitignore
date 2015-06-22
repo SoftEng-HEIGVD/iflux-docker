@@ -30,5 +30,6 @@ node_modules
 
 .idea
 .env
+.env-iflux
 .vagrant
 projects

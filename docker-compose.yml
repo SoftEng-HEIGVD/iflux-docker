@@ -49,6 +49,8 @@ ifluxmetrics:
     - mongo
   ports:
     - 3002:3000
+  volumes_from:
+    - ifluxsrvdata
 
 ifluxmapbox:
   image: softengheigvd/iflux-mapbox-viewer:latest
@@ -57,6 +59,8 @@ ifluxmapbox:
     - 3004:3000
   env_file:
     .env
+  volumes_from:
+    - ifluxsrvdata
 
 #ifluxstarter:
 #  image: softengheigvd/iflux-server-starter:v0.0.4
@@ -74,6 +78,8 @@ citizen:
     - mongo
   ports:
     - 3003:3000
+  volumes_from:
+    - ifluxsrvdata
 
 publibike:
   image: softengheigvd/iflux-publibike-event-source:latest
@@ -145,9 +151,9 @@ rp:
   links:
     - kibana
     - citizen
-    - ifluxmapbox:viewer
+    - ifluxmapbox:viewbox
     - ifluxmetrics:metrics
-    - ifluxmetrics:slack
+    - ifluxslack:slack
     - ifluxapi:gateway
     - ifluxsrv:iflux
     - ifluxapidoc:doc
