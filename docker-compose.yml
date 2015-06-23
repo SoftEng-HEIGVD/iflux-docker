@@ -149,13 +149,14 @@ rp:
   build: rp
   links:
     - kibana
-    - citizen
     - ifluxmapbox:viewbox
     - ifluxmetrics:metrics
     - ifluxslack:slack
     - ifluxapi:gateway
     - ifluxsrv:iflux
     - ifluxapidoc:doc
+    - citizen
+    - publibike
   ports:
     - 3000:80
 
