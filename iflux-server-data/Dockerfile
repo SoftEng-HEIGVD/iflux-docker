@@ -23,4 +23,9 @@ RUN useradd -m -r -U metrics -u 1114 && chown -R metrics:metrics /data/metrics
 # Add iFLUX Publibike
 RUN useradd -m -r -U publibike -u 1115 && chown -R metrics:publibike /data/publibike
 
-CMD /bin/bash
+# All for the last setup
+ADD . /datasetup
+RUN chmod +x /datasetup/setup.sh
+WORKDIR /datasetup
+
+CMD ["setup.sh"]
