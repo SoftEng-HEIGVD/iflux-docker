@@ -10,6 +10,7 @@ RUN cd /data \
     && mkdir slack \
     && mkdir citizen \
     && mkdir viewbox \
+    && mkdir metrics \
     && mkdir publibike
 
 # Add iFLUX Slack user
