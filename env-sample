@@ -44,7 +44,7 @@ IFLUX_SCHEMAS_URL=http://<Boot2Docker IP>:3000/schemas
 CITIZEN_URL=http://<Boot2Docker IP>:3000/citizen
 METRICS_URL=http://<Boot2Docker IP>:3000/metrics
 SLACK_GATEWAY_URL=http://<Boot2Docker IP>:3000/slack
-VIEWBOX_URL=http://<Boot2Docker IP>:3000/view
+VIEWBOX_URL=http://<Boot2Docker IP>:3000/viewbox
 
 # Base data for iFLUX setup
 IFLUX_ADMIN_USER=admin@iflux.io
