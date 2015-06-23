@@ -4,7 +4,7 @@ FROM debian:wheezy
 RUN groupadd -r mongodb \
 	&& useradd -r -g mongodb mongodb \
 	&& mkdir -p /data/db/mongo \
-	&& chown -R mongodb:mongodb /data/db/mongo \
+	&& chown -R mongodb:mongodb /data/db/mongo
 
 # Add iFLUX Slack user
 RUN useradd -m -r -U ifluxslack -u 1111 \
@@ -30,6 +30,5 @@ RUN useradd -m -r -U metrics -u 1114 \
 RUN useradd -m -r -U publibike -u 1115 \
 	&& mkdir -p /data/publibike \
 	&& chown -R metrics:publibike /data/publibike
-
 
 CMD /bin/bash
