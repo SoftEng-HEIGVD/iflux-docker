@@ -28,4 +28,4 @@ ADD . /datasetup
 RUN chmod +x /datasetup/setup.sh
 WORKDIR /datasetup
 
-CMD ["setup.sh"]
+CMD ["./setup.sh"]
