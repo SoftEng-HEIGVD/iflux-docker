@@ -12,6 +12,10 @@ ifluxsrvdata:
     - "/iflux/kafka:/kafka"
     - "/iflux/esearch:/usr/share/elasticsearch/data"
     - "/iflux/slack:/data/slack"
+    - "/iflux/viewbox:/data/viewbox"
+    - "/iflux/metrics:/data/metrics"
+    - "/iflux/publibike:/data/publibike"
+    - "/iflux/citizen:/data/citizen"
 
 ifluxsrv:
   image: softengheigvd/iflux-server-node:latest
