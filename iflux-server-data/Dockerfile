@@ -6,7 +6,7 @@ RUN groupadd -r mongodb \
 	&& mkdir -p /data/db/mongo \
 	&& chown -R mongodb:mongodb /data/db/mongo
 
-RUN cd /data && mkdir slack citizen viewbox metrics publibike
+RUN cd /data && mkdir slack citizen viewbox metrics publibike ifluxfe
 
 # Add iFLUX Slack user
 RUN useradd -m -r -U ifluxslack -u 1111 && chown -R ifluxslack:ifluxslack /data/slack
