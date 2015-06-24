@@ -38,6 +38,11 @@ IFLUX_PG_DB_USER=ifluxsrv
 IFLUX_PG_DB_PASS=ifluxsrv
 
 ################
+# IFLUX FRONTEND
+################
+IFLUX_PUBLIC_API_URL=http://<Boot2Docker IP>:3000/api/v1
+
+################
 # IFLUX STARTER
 ################
 IFLUX_SCHEMAS_URL=http://<Boot2Docker IP>:3000/schemas

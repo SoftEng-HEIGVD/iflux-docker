@@ -38,6 +38,12 @@ ifluxapi:
     - kafka
     - zookeeper:zk
 
+ifluxfe:
+  image: softengheigvd/iflux-frontend
+  env_file: ./.env
+  ports:
+    - 3007:3000
+
 ifluxslack:
   image: softengheigvd/iflux-slack-gateway:latest
   env_file: ./.env
@@ -154,6 +160,7 @@ rp:
     - ifluxslack:slack
     - ifluxapi:gateway
     - ifluxsrv:iflux
+    - ifluxfrontend:fe
     - ifluxapidoc:doc
     - citizen
     - publibike
@@ -166,6 +173,7 @@ rplight:
     - kibana
     - ifluxapi:gateway
     - ifluxsrv:iflux
+    - ifluxfrontend:fe
     - ifluxapidoc:doc
   ports:
     - 3000:80

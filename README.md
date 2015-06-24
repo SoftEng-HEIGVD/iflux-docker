@@ -65,6 +65,11 @@ IFLUX_PG_DB_USER=ifluxsrv
 IFLUX_PG_DB_PASS=ifluxsrv
 
 ################
+# IFLUX FRONTEND
+################
+IFLUX_PUBLIC_API_URL=http://<Boot2Docker IP>:3000/api/v1
+
+################
 # IFLUX STARTER
 ################
 IFLUX_SCHEMAS_URL=http://<Boot2Docker IP>:3000/schemas
@@ -148,6 +153,12 @@ VIEWBOX_ACTION_TYPE=http://<Boot2Docker IP>:3000/schemas/actionTypes/viewMarker
 | IFLUX_PG_DB_NAME           | The database name. |
 | IFLUX_PG_DB_USER           | The database user name. |
 | IFLUX_PG_DB_PASS           | The database user password. |
+
+#### iFLUX Frontend
+
+| Name                       | Description                               |
+| -------------------------- | ----------------------------------------- |
+| IFLUX_PUBLIC_API_URL       | Should be the Docker host IP (boot2docker IP, Vagrant VM IP, ...) or the IP of your host if you have installed iFLUX Server manually. |
 
 #### iFLUX Starter
 

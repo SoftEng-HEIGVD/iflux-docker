@@ -21,7 +21,10 @@ RUN useradd -m -r -U viewbox -u 1113 && chown -R viewbox:viewbox /data/viewbox
 RUN useradd -m -r -U metrics -u 1114 && chown -R metrics:metrics /data/metrics
 
 # Add iFLUX Publibike
-RUN useradd -m -r -U publibike -u 1115 && chown -R metrics:publibike /data/publibike
+RUN useradd -m -r -U publibike -u 1115 && chown -R publibike:publibike /data/publibike
+
+# Add iFLUX Publibike
+RUN useradd -m -r -U ifluxfe -u 1116 && chown -R ifluxfe:ifluxfe /data/ifluxfe
 
 # All for the last setup
 ADD . /datasetup
