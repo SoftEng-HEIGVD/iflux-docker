@@ -160,7 +160,7 @@ rp:
     - ifluxslack:slack
     - ifluxapi:gateway
     - ifluxsrv:iflux
-    - ifluxfrontend:fe
+    - ifluxfe:fe
     - ifluxapidoc:doc
     - citizen
     - publibike
@@ -173,7 +173,7 @@ rplight:
     - kibana
     - ifluxapi:gateway
     - ifluxsrv:iflux
-    - ifluxfrontend:fe
+    - ifluxfe:fe
     - ifluxapidoc:doc
   ports:
     - 3000:80
