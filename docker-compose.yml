@@ -72,6 +72,16 @@ ifluxmapbox:
   volumes_from:
     - ifluxsrvdata
 
+ifluxpaleo:
+  image: softengheigvd/iflux-paleo-2015:latest
+  env_file: ./.env
+  ports:
+    - 3008:3000
+  env_file:
+    .env
+  volumes_from:
+    - ifluxsrvdata
+
 ifluxstarter:
   image: softengheigvd/iflux-server-starter:latest
   env_file: ./.env
@@ -155,6 +165,7 @@ rp:
   build: rp
   links:
     - kibana
+    - ifluxpaleo:paleo
     - ifluxmapbox:viewbox
     - ifluxmetrics:metrics
     - ifluxslack:slack

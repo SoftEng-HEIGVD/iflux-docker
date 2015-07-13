@@ -6,7 +6,7 @@ RUN groupadd -r mongodb \
 	&& mkdir -p /data/db/mongo \
 	&& chown -R mongodb:mongodb /data/db/mongo
 
-RUN cd /data && mkdir slack citizen viewbox metrics publibike ifluxfe
+RUN cd /data && mkdir slack citizen viewbox metrics publibike ifluxfe paleo
 
 # Add iFLUX Slack user
 RUN useradd -m -r -U ifluxslack -u 1111 && chown -R ifluxslack:ifluxslack /data/slack
@@ -23,8 +23,11 @@ RUN useradd -m -r -U metrics -u 1114 && chown -R metrics:metrics /data/metrics
 # Add iFLUX Publibike
 RUN useradd -m -r -U publibike -u 1115 && chown -R publibike:publibike /data/publibike
 
-# Add iFLUX Publibike
+# Add iFLUX Frontend
 RUN useradd -m -r -U ifluxfe -u 1116 && chown -R ifluxfe:ifluxfe /data/ifluxfe
+
+# Add iFLUX Paleo
+RUN useradd -m -r -U paleo -u 1117 && chown -R paleo:paleo /data/paleo
 
 # All for the last setup
 ADD . /datasetup
