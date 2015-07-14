@@ -48,6 +48,7 @@ IFLUX_PUBLIC_API_URL=http://<Boot2Docker IP>:3000/api/v1
 IFLUX_SCHEMAS_URL=http://<Boot2Docker IP>:3000/schemas
 CITIZEN_URL=http://<Boot2Docker IP>:3000/citizen
 METRICS_URL=http://<Boot2Docker IP>:3000/metrics
+PALEO_URL=http://<Boot2Docker IP>:3000/paleo
 SLACK_GATEWAY_URL=http://<Boot2Docker IP>:3000/slack
 VIEWBOX_URL=http://<Boot2Docker IP>:3000/viewbox
 
@@ -62,6 +63,12 @@ SLACK_GATEWAY_IFLUX_BOT_TOKEN=<ifluxSlackToken>
 # Metrics
 ############
 METRICS_ACTION_TYPE=http://<Boot2Docker IP>:3000/schemas/actionTypes/updateMetric
+
+############
+# Paleo
+############
+PALEO_CAR_IN_ACTION_TYPE=http://<Boot2Docker IP>:3000/schemas/actionTypes/carIn
+PALEO_CAR_OUT_ACTION_TYPE=http://<Boot2Docker IP>:3000/schemas/actionTypes/carOut
 
 ############
 # Publibike

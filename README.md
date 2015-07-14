@@ -75,6 +75,7 @@ IFLUX_PUBLIC_API_URL=http://<Boot2Docker IP>:3000/api/v1
 IFLUX_SCHEMAS_URL=http://<Boot2Docker IP>:3000/schemas
 CITIZEN_URL=http://<Boot2Docker IP>:3000/citizen
 METRICS_URL=http://<Boot2Docker IP>:3000/metrics
+PALEO_URL=http://<Boot2Docker IP>:3000/paleo
 SLACK_GATEWAY_URL=http://<Boot2Docker IP>:3000/slack
 VIEWBOX_URL=http://<Boot2Docker IP>:3000/view
 
@@ -89,6 +90,12 @@ SLACK_GATEWAY_IFLUX_BOT_TOKEN=<ifluxSlackToken>
 # Metrics
 ############
 METRICS_ACTION_TYPE=http://<Boot2Docker IP>:3000/schemas/actionTypes/updateMetric
+
+############
+# Paleo
+############
+PALEO_CAR_IN_ACTION_TYPE=http://<Boot2Docker IP>:3000/schemas/actionTypes/carIn
+PALEO_CAR_OUT_ACTION_TYPE=http://<Boot2Docker IP>:3000/schemas/actionTypes/carOut
 
 ############
 # Publibike
@@ -169,6 +176,7 @@ VIEWBOX_ACTION_TYPE=http://<Boot2Docker IP>:3000/schemas/actionTypes/viewMarker
 | IFLUX_SCHEMAS_URL             | To define the base path for the event and action types. Take care the action and event types must be the same than the one configured in each project (citizen, metrics, slack and viewbox). |
 | CITIZEN_URL                   | The URL to contact the Citizen Engagement event source. |
 | METRICS_URL                   | The URL to contact the Metrics action target. |
+| PALEO_URL                     | The URL to contact the paleo action target. |
 | SLACK_GATEWAY_URL             | The URL to contact Slack action target. |
 | VIEWBOX_URL                   | The URL to contact ViewBox action target. |
 | SLACK_GATEWAY_iFLUX_BOT_TOKEN | The iFLUX Bot Token that is used to connect to Slack. |
@@ -178,6 +186,12 @@ VIEWBOX_ACTION_TYPE=http://<Boot2Docker IP>:3000/schemas/actionTypes/viewMarker
 | Name                       | Description                               |
 | -------------------------- | ----------------------------------------- |
 | METRICS_ACTION_TYPE        | Define the metrics action type. Must be unique. | 
+
+#### Paleo 2015
+| Name                       | Description                               |
+| -------------------------- | ----------------------------------------- |
+| PALEO_CAR_IN_ACTION_TYPE   | A car enters a parking action type. |
+| PALEO_CAR_OUT_ACTION_TYPE  | A car goes out of a parking action type. |
 
 #### Publibike
 
