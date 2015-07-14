@@ -67,18 +67,16 @@ ifluxmapbox:
   env_file: ./.env
   ports:
     - 3004:3000
-  env_file:
-    .env
   volumes_from:
     - ifluxsrvdata
 
 ifluxpaleo:
   image: softengheigvd/iflux-paleo-2015:latest
   env_file: ./.env
+  links:
+    - mongo
   ports:
     - 3008:3000
-  env_file:
-    .env
   volumes_from:
     - ifluxsrvdata
 
@@ -116,8 +114,7 @@ postgresql:
     - "db:/docker-entrypoint-initdb.d"
   ports:
     - 5432:5432
-  env_file:
-    - .env
+  env_file: ./.env
 
 postgresqlwait:
   image: n3llyb0y/wait
@@ -139,8 +136,7 @@ kafka:
     - zookeeper:zk
   environment:
     KAFKA_CREATE_TOPICS: "iflux-events:1:1"
-  env_file:
-    - .env
+  env_file: ./.env
   volumes_from:
     - ifluxsrvdata
   volumes:
