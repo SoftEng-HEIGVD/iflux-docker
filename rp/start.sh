@@ -11,4 +11,6 @@ sed -i "s/<paleo>/${PALEO_PORT_3000_TCP_ADDR}:${PALEO_PORT_3000_TCP_PORT}/" /etc
 sed -i "s/<slack>/${SLACK_PORT_3000_TCP_ADDR}:${SLACK_PORT_3000_TCP_PORT}/" /etc/nginx/nginx.conf
 sed -i "s/<viewbox>/${VIEWBOX_PORT_3000_TCP_ADDR}:${VIEWBOX_PORT_3000_TCP_PORT}/" /etc/nginx/nginx.conf
 
+cat /etc/nginx/nginx.conf
+
 nginx
