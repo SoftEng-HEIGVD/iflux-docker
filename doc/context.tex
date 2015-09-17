@@ -1,0 +1,15 @@
+\section{Context and design objectives}
+
+The need for the iFLUX middleware has emerged in a research program dedicated to smart cities, entitled iNUIT and established at the HES-SO University of Applied Sciences Western Switzerland. The goal of iNUIT is to build a complete IoT stack for smart city applications. It is based on a layered architecture: the lower layer deal with the interconnection of physical objects (specialized sensors, low-power mesh networks, WoT gateways, etc.), the intermediate layer deal with data analysis (sensor fusion, video processing, etc.) and the upper layer hosts applications (e.g. crowd monitoring). Initially, middleware services have been provided in the iNUIT cloud for archiving and querying information (both raw sensor data and extracted information). One goal of iFLUX was to add the capability to process event streams and to enable a reactive programming style \cite{reactive}.
+
+\subsection{Reuse}
+
+Our first objective was to encourage the reuse of iNUIT services developed in different projects. Typically, the teams working on individual components (e.g. a new type of sensor, a video processing module) focus on a specific service. They often implement basic demonstrators to validate this service. What is often not so easy to do for them is to expose the service, so that it can be found and used by other teams (and in particular by those working at the application level). Hence, our first goal was to provide an easy solution for component developers to bring their technology in a single service catalog. From the application developers point of view, the interaction with all services in the catalog should follow the same approach and patterns. This is what is captured in the iFLUX programming model.
+
+\subsection{Decoupling}
+
+The fact that many independant teams are involved in the iNUIT program reflects what happens in most smart city environments, from an organizational point of view. In the introduction, we used the term \emph{silo}, to suggest that it must be possible for different teams to develop atomic services and applications with as few dependencies as possible. With this in mind, iFLUX is based on a micro-services oriented architecture. Every component of the ecosystem is developed and operated independently. Web protocols provide the platform-independant glue between the components. We have used the Docker virtualization technology, based on lightweight containers, to facilitate the packaging and deployment of these independent components.
+
+\subsection{Simplicity}
+
+We wanted iFLUX to be very lightweight and easy to use, both for service and application developers. The programming model should be easy to grasp, hence with a small number of abstractions. Bringing a sensor or an actuator into the iFLUX ecosystem should not require a big effort. The APIs that have to be consumed or published should be concise. This is one reason for which we have decided to initially only support stateless rules. We will later show that state can easily be managed in \emph{action targets}.

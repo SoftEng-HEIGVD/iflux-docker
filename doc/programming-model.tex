@@ -1,0 +1,51 @@
+\section{Programming model}
+
+The programming model for iFLUX was inspired from popular lightweight service integration services, such as IFTTT \cite{ifttt}  and Zapier \cite{zapier}. It follows the Event Condition Action (ECA) paradigm \cite{bailey2004event,qiao2007developing,papamarkos2003event} and is based on three core abstractions: i) \emph{event sources}, ii) \emph{action targets} and iii) \emph{rules}. \emph{Event sources} and \emph{action targets} are meant be developed by third-party developers, independently from any specific application (to encourage reuse). Application developers implement workflows on top of available \emph{event sources} and \emph{action targets}, by defining stateless rules. Essentially, they express rules such as ``\emph{if} an event with properties that match these conditions is notified, \emph{then} trigger an action on this target, with the following properties".
+
+In addition, we have extended the concept of \emph{Event Sources} and \emph{action targets} by a template mechanism. The idea behind this template mechanism is, for instance, to let the user defining an event source template which will be instantiated to an real event source. In this context, the template is the definition of the event source or the action target. An instance of an event source or an action target is the real system sending the events or receiving the actions. In addition, the instance let the possibility to customize the configuration through a callback defined on the event source or the action target. This will be covered later.
+
+\subsection{Event Source Templates}
+\label{sec:est}
+
+An \emph{event source template} is a type of autonomous component that produces a stream of typed events. Based on this definition, there are quite different types of event source templates. Here are some examples:
+
+\begin{itemize}
+\item \emph{Connected hardware sensors} that emit a continuous flow of low-level events. In this case, the events are observations or measures captured by the sensors.
+\item \emph{Software sensors} that capture some kind of activity in a digital system and emit related events. For instance, one can think of a software sensor embedded in a business application that emits an event whenever a business-level condition is met.
+\item \emph{Data processing services} that emit higher-level events. Typically, a data processing service aggregates several streams of low level events and applies some kind of logic to produce a new stream.
+\item \emph{User agents} used as proxy to emit human generated events. For instance, think of a mobile application used to report incidents.
+\end{itemize}
+
+\subsection{Event Sources}
+\label{sec:es}
+
+An \emph{event source} is an instance of an \emph{event source template}. This will represent a unique and specific source of typed events. Based on this definition, there are quite different types of event sources. 
+
+All the previous examples are valid in the way that each sensor is uniquely identified and represent a stream of events. Therefore, you can have several temperature sensor which represent the save event source template so the same kind of events will be triggered but each event comes from a specific sensor. In the case of the data processing service, it will allow scoping the events stream to a data context.
+
+The iFLUX middleware exposes a standard REST API that \emph{event sources} use to stream their data. The API specifies a simple payload structure: an event is defined by a timestamp, a source, a type and a list of properties. The list of properties depends on the event type.
+
+\subsection{Action Target Templates}
+\label{sec:att}
+
+An \emph{action target template} is a component that exposes logic that can be triggered from the iFLUX middleware. Here also, there are different types of action target templates:
+
+\begin{itemize}
+\item \emph{Connected hardware actuators} that can be remotely controlled. A smart street light or a large public display located in a stadium are two examples.
+\item \emph{Software actuators} that are typically business applications or gateways deployed for integration purposes.
+\item \emph{User interaction channel gateways} that are special software actuators geared at delivering notifications to people. Examples include gateways for delivering e-mails, push notifications and social network notifications.
+\end{itemize}
+
+\subsection{Action Targets}
+\label{sec:at}
+
+An \emph{action target} is an instance of an \emph{action target template}. This time, this will allow to create action streams dedicated to an instance of action target.
+
+For example, you can have a light actuator action target template which is instantiated in each room of a building. With the proper rule and the proper light sensor, we will be able to switch on or off the light in the correct room.
+
+The developers of \emph{action targets} must implement a simple REST API and process incoming action payloads. An action payload is defined by a timestamp, a type and a list of properties.
+
+\subsection{Rules}
+\label{sec:rules}
+
+The last abstraction in the iFLUX model is the notion of rule. Rules are what bind events and actions together. A rule specifies that \emph{if} an event is notified and its properties meet certain criteria \emph{then} one or more actions has to be triggered with a list of properties (which values are computed based on the event properties).
