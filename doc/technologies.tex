@@ -287,7 +287,7 @@ What is Kafka? \emph{Apache Kafka is publish-subscribe messaging rethought as a 
 \item\textbf{Distributed by Design}: Kafka has a modern cluster-centric design that offers strong durability and fault-tolerance guarantees. 
 \end{itemize}
 
-Kafka is designed to be highly scalable. Then it is usually used in a cluster mode of multiple instances of Kafka. To orchestrate the Kafka cluster, Kafka uses Zookeeper. Zookeeper is used to manage the Kafka cluster. In fact, in this project, we only used one instance of Kafka but we were forced to deploy a Zookeeper to let Kafka working.
+Kafka is designed to be highly scalable. Then it is usually used in a cluster mode of multiple instances of Kafka. Zookeeper is used to orchestrate the Kafka cluster. Even if you only used one Kafka instance, Zookeeper is required to store topic and partitions metadata.
 
 Kafka comes with several concepts:
 
@@ -477,8 +477,20 @@ By the way, our system is fault tolerant with ElasticSearch. If ElasticSearch is
 
 What is Storm? \emph{Apache Storm is a free and open source distributed realtime computation system. Storm makes it easy to reliably process unbounded streams of data, doing for realtime processing what Hadoop did for batch processing. Storm is simple, can be used with any programming language, and is a lot of fun to use!}
 
+Storm in iFlux will be the core system to process events in real time.  
 
-\textbf{TO BE COMPLETED}
+Storm comes with several concepts:
+\begin{itemize}
+\item\textbf{Topology} is a graph more exactly a Directed Acyclic Graph, of spouts and bolts that are connected with stream groupings. 
+\item\textbf{Spout} is a source of streams in a topology. One of the most common source is Kafka. 
+\item\textbf{Bolt} is a processing unit used to filter, aggregate, join, talk to database, custom function, etc. It is the logical function inside Storm. 
+\item\textbf{Streams} is the core abstraction in Storm and more precisely a sequence of tuples. 
+\item\textbf{Worker} is a physical JVM that contains executors. 
+\item\textbf{Executors} is a worker thread that executes one or many tasks.
+\item\textbf{Tasks} is a bolt or spout to process.
+\end{itemize}
+
+Storm guarantees that every spout tuples will be fully processed by the topology. A spout is considered as fully processed when the tree of tuples has been successfully completed. If a worker is down or a task make more than X seconds (Timeout defined by the user) to process, the tree tuples is considered as failed, and the spout send again the data. One master node check the availability of each worker and if one is down, it restart it or redeploy a new one in another location in the cluster. 
 
 \subsection{API Testing}
 
