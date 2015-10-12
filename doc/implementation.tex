@@ -394,6 +394,31 @@ and an example:
 }]
 \end{lstlisting}
 
+\subsubsection{Rules evaluation}
+
+\begin{figure*}
+\centering
+\includegraphics[width=.8\textwidth]{figures/rules-evaluation}
+\caption{The rule evaluation algorithm}
+\label{fig:rule-eval}
+\end{figure*}
+
+The algorithm to evaluate the rules agains an event is not really complex. The figure \ref{fig:rule-eval} shows the evaluation algorithm. For each event, we evaluate all the rules. In fact, more than one rule can match. Each rule has one or more conditions, therefore we iterate over each condition to check if the event match the rule or not. In a condition, we can define an expression, an event source, an event type or a combination of them. Then, there is 7 ways to evaluate an event.
+
+\begin{itemize}
+\item \textbf{S} matching by event source only;
+\item \textbf{T} matching by event type only;
+\item \textbf{E} matching by expression only;
+\item \textbf{ST} matching by event source and event type;
+\item \textbf{SE} matching by event source and expression;
+\item \textbf{TE} matching by event type and expression;
+\item \textbf{STE} matching by event source, event type and expression
+\end{itemize}
+
+For each combination of evaluation, all the parts of the combination must match the event. In a condition rule, when event source or event type is not present, it will results in a joker match on the event source or event type.
+
+Once the the combination to evaluate is found, the evaluation is done. If there is a match of the event against the rule, then we prepare the actions corresponding to the rule. If there is more conditions, we restart the evaluation process for the next condition. If no more conditions, we take a look to know if there is more rule to evaluate. If there is, we start again the evaluation process for the next rule otherwise we stop the evaluation process. Once we have all evaluated, we triggered the actions.
+
 \subsection{Model summary}
 
 In fact, the data model of iFLUX is not so complex. A lot of things that are present for the event side are also present in the action side. Only few details change between them. The logic behind this is that it is more easy to maintain and to factorize the code if the things are close. The difference between event and action sides is mainly due to the fact that the event side is an input stream in iFLUX and the action side is an output stream. Then, the action side models require more configuration than event side.
