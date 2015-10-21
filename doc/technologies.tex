@@ -10,7 +10,7 @@ In iFlux, we prepared several images to instantiate containers on a dedicated VM
 
 In fact, the iFLUX image, everything is already ready. We have the installation of NodeJS which the runtime that runs our application. All the application dependencies are also bundled as the application is installed. The difference between a dockerized application and a traditional one is that the bundle you ship is self contained and there is nothing to worry about. No more issues with missing dependencies or dependency repository down.
 
-Secondly, it brings a real advantage for the deployment time. As you have your application ready to use and you have just to run one line command to run your containerized application, you have just to download it and to run it. So you can repeat this process on each environment where you want to deploy the app. In our case, we have deployed two distincts production environments. In summary, we can say prepared once, deploy everywhere.
+Secondly, it brings a real advantage for the deployment time. As you have your application ready to use and you have just to run one line command to run your containerized application, you have just to download it and to run it. So you can repeat this process on each environment where you want to deploy the app. In our case, we have deployed two distinct productions environments. In summary, we can say prepared once, deploy everywhere.
 
 There is the Docker image file of the iFLUX main server.
 
@@ -278,7 +278,7 @@ docker ps
 
 \subsubsection{Docker Hub}
 
-In addition, we use \emph{Docker Hub} which is a platform offered by the creators of Docker to upload/download images. Once they are plublished on their platform, they are available to everybody. As iFLUX is an Open Source project, we decided to publish the corresponding images to the community. Moreover, we have also facilitated the deployment process on the school server where we have just to download the latest versions of the images. This also confirmed the goal of Docker which can be summarized as: \emph{Build once, deploy everywhere}.
+In addition, we use \emph{Docker Hub} which is a platform offered by the creators of Docker to upload/download images. Once they are published on their platform, they are available to everybody. As iFLUX is an Open Source project, we decided to publish the corresponding images to the community. Moreover, we have also facilitated the deployment process on the school server where we have just to download the latest versions of the images. This also confirmed the goal of Docker which can be summarized as: \emph{Build once, deploy everywhere}.
 
 \subsection{Kafka}
 
@@ -304,7 +304,7 @@ Kafka comes with several concepts:
 
 In iFLUX, we use Kafka for the messaging between the API gateway and the rule engine. So the API gateway is our producer and the iFLUX rule engine is our consumer. We defined one topic to exchange the messages.
 
-One of the advantage of Kafka is the availability of a lot of clients in different langages. We found, at least, one for NodeJS and then we were able to integrate Kafka in our two components.
+One of the advantage of Kafka is the availability of a lot of clients in different languages. We found, at least, one for NodeJS and then we were able to integrate Kafka in our two components.
 
 The code to achieve that is pretty straight forward. For the producer part, it requires to create and connect a client and then to create a producer. Once the producer is ready, we can post messages to the topic we want. Kafka can auto-create the topic if missing.
 
@@ -479,9 +479,7 @@ By the way, our system is fault tolerant with ElasticSearch. If ElasticSearch is
 
 \subsection{Storm}
 
-What is Storm? \emph{Apache Storm is a free and open source distributed realtime computation system. Storm makes it easy to reliably process unbounded streams of data, doing for realtime processing what Hadoop did for batch processing. Storm is simple, can be used with any programming language, and is a lot of fun to use!}
-
-Storm in iFlux will be the core system to process events in real time.  
+What is Storm? \emph{Apache Storm is a free and open source distributed real time computation system. Storm makes it easy to reliably process unbounded streams of data, doing for real time processing what Hadoop did for batch processing. Storm is simple, can be used with any programming language, and is a lot of fun to use!}
 
 Storm comes with several concepts:
 \begin{itemize}
@@ -492,9 +490,33 @@ Storm comes with several concepts:
 \item\textbf{Worker} is a physical JVM that contains executors. 
 \item\textbf{Executors} is a worker thread that executes one or many tasks.
 \item\textbf{Tasks} is a bolt or spout to process.
+\item\textbf{Nimbus} is a daemon running on the master node. It distributes the code on the cluster, assign task to supervisors and watch errors. 
+\item\textbf{Supervisor} is a daemon running on slaves nodes. They receive jobs assigned to these workers. For each worker there is one supervisor daemon. 
 \end{itemize}
 
+
 Storm guarantees that every spout tuples will be fully processed by the topology. A spout is considered as fully processed when the tree of tuples has been successfully completed. If a worker is down or a task make more than X seconds (Timeout defined by the user) to process, the tree tuples is considered as failed, and the spout send again the data. One master node check the availability of each worker and if one is down, it restart it or redeploy a new one in another location in the cluster. 
+
+The purpose of using Storm in iFlux is to be scalable with the amount of events to process. A good start will be to modify the iFlux server which evaluate the rules by encapsulating it in a Bolt. The figure \ref{fig:iflux-storm-architecture} explains the architecture. 
+
+\begin{figure}
+\centering
+\includegraphics[width=1\columnwidth]{figures/storm-architecture.png}
+\caption{Storm architecture concept}
+\label{fig:iflux-storm-architecture}
+\end{figure}
+
+Each box is a docker container and by definition can be deployed on a physical server. Storm is built to run JVM languages as bolt, but it also provide a Multilang protocol to support other language. Multilang use json messages over stdin/stdout to communicate with the subprocess. The topology will have one Spout which reads events from Kafka and push them to the Bolt thats evaluate the rules. The bolt is parallelized as you want and make the architecture scalable and fault tolerant. The figure \ref{fig:iflux-topology} 
+displays the topology with Kafka interactions and the result Actions. 
+
+ \begin{figure}
+\centering
+\includegraphics[width=1\columnwidth]{figures/storm-topology.png}
+\caption{Storm topology with bolt in parallel}
+\label{fig:iflux-topology}
+\end{figure}
+
+A better architecture will be to undockerize Kafka, Zookeeper and Storm and run them in native environment to enhance performances. The second optimization is to decompose the rules engine in small tasks and create an acyclic graph which is a Storm topology. The goal is to avoid the unique bolt and replace it by a real Storm topology with many bolts. All infrastructure can be deployed on a Hadoop cluster. 
 
 \subsection{API Testing}
 
