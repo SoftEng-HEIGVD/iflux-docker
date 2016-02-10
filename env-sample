@@ -3,6 +3,7 @@ NODE_ENV=docker
 ###########################
 # Docker Compose Specific
 ###########################
+KAFKA_ENABLE=false
 KAFKA_ADVERTISED_HOST_NAME=<Boot2Docker IP>
 KAFKA_ADVERTISED_PORT=9092
 

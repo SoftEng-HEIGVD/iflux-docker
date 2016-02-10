@@ -30,6 +30,7 @@ NODE_ENV=docker
 ###########################
 # Docker Compose Specific
 ###########################
+KAFKA_ENABLE=true
 KAFKA_ADVERTISED_HOST_NAME=<Boot2Docker IP>
 KAFKA_ADVERTISED_PORT=9092
 
@@ -128,8 +129,11 @@ VIEWBOX_ACTION_TYPE=http://<Boot2Docker IP>:3000/schemas/actionTypes/viewMarker
 
 | Name                       | Description                               |
 | -------------------------- | ----------------------------------------- |
+| KAFKA_ENABLE               | Enable/Disable Kafka service. Useful for dev mode |
 | KAFKA_ADVERTISED_HOST_NAME | The IP where Kafka will be exposed outside (Boot2Docker IP, Vagrant VM IP, ...) |
 | KAFKA_ADVERTISED_PORT      | Default port is 9092. |
+
+**Remark**: When Kafka is disable, a route /events is available on the iflux server. 
 
 #### Commons
 
@@ -275,7 +279,7 @@ $> docker-compose pull
 ######################################################
 
 # Start the containers (default is rplight if no args provided to start)
-$> ./start.sh <rp|rplight>
+$> ./start.sh <rp|rplight|dev>
 ```
 
 ## Cleanup
