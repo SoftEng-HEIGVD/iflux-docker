@@ -29,7 +29,8 @@ ifluxsrv:
     - elasticsearch:es
 
 ifluxsrvlight:
-  image: softengheigvd/iflux-server-node:latest
+#  image: softengheigvd/iflux-server-node:latest
+  build: ./projects/iflux-server
   env_file: ./.env
   environment:
     KAFKA_ENABLE: 'false'
@@ -214,3 +215,5 @@ dev:
     - ifluxsrvlight:iflux
     - ifluxfe:fe
     - ifluxapidoc:doc
+  ports:
+    - 3000:80

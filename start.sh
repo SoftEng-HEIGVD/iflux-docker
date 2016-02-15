@@ -6,6 +6,7 @@ if [ -z "$1" ]; then
     container='rplight'
 fi
 
+docker-compose build $container
 docker-compose run --rm postgresqlwait
 docker-compose up -d $container
 docker ps
