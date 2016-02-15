@@ -212,5 +212,5 @@ dev:
   links:
     - kibana
     - ifluxsrvlight:iflux
-    - ifluxfe
+    - ifluxfe:fe
     - ifluxapidoc:doc
